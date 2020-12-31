@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wall_layout/brick.dart';
+import 'package:flutter_wall_layout/stone.dart';
 
-/// Relative position of a brick in the Wall.
-/// [x] refers to the wall column position.
-/// [y] refers to the wall row position.
-class BrickPosition {
+/// Relative position of a stone in the Wall.
+class StonePosition {
+  /// Wall column position.
   final int x;
+  /// Wall row position.
   final int y;
 
-  BrickPosition({this.x, this.y});
+  StonePosition({this.x, this.y});
 
   /// Computes the absolute brick position in a wall.
-  /// [brickSide] represents the smallest brick width/height.
-  Offset operator *(double brickSide) => Offset(this.x * brickSide, this.y * brickSide);
+  /// [stoneSide] represents the smallest stone width/height.
+  Offset operator *(double stoneSide) => Offset(this.x * stoneSide, this.y * stoneSide);
 }
 
 class WallSize {
@@ -27,7 +27,7 @@ class WallSize {
 }
 
 /// Class determining how the wall will be built.
-/// It main goals are to compute wall height and position every bricks into the wall.
+/// It main goals are to compute wall height and position every stones into the wall.
 class WallBuildHandler {
   /// Define how many columns the wall possess.
   final int axisSeparations;
@@ -36,26 +36,24 @@ class WallBuildHandler {
 
   final Axis direction;
 
-  final List<Brick> bricks;
+  final List<Stone> stones;
 
   List<int> _grid;
   WallSize _wallSize;
 
   WallBuildHandler(
-      {this.axisSeparations, this.reverse = false, this.direction = Axis.vertical, this.bricks}) {
+      {this.axisSeparations, this.reverse = false, this.direction = Axis.vertical, this.stones}) {
     _grid = [];
     _wallSize = null;
   }
 
   void setup() {
-    var bricksList = this.bricks;
-
     // instantiate grid
-    final surface = bricksList.fold(0, (sum, cell) => sum + cell.surface);
+    final surface = this.stones.fold(0, (sum, cell) => sum + cell.surface);
     _grid = List<int>.generate(surface * axisSeparations, (index) => null);
 
-    // set bricks positions in grid
-    bricksList.forEach((brick) => _setBrickPosition(brick));
+    // set stones positions in grid
+    this.stones.forEach((stone) => _computeStonePosition(stone));
 
     //compute grid height and width
     _wallSize = _computeSize();
@@ -69,15 +67,15 @@ class WallBuildHandler {
     }
   }
 
-  bool __canFit(Brick brick, int firstIndex) {
+  bool __canFit(Stone stone, int firstIndex) {
     final placeLeft = this.axisSeparations - (firstIndex % this.axisSeparations);
-    if ((this.direction == Axis.vertical ? brick.width : brick.height) > placeLeft) {
+    if ((this.direction == Axis.vertical ? stone.width : stone.height) > placeLeft) {
       return false;
     }
 
     bool found = true;
-    for (var j = 0; j < brick.width; j++) {
-      for (var k = 0; k < brick.height; k++) {
+    for (var j = 0; j < stone.width; j++) {
+      for (var k = 0; k < stone.height; k++) {
         found &= _grid[firstIndex + __getGridPos(j, k)] == null;
       }
     }
@@ -92,7 +90,7 @@ class WallBuildHandler {
     }
   }
 
-  void __placeOnGrid(Brick brick, int firstIndex) {
+  void __placeOnGrid(Stone brick, int firstIndex) {
     for (var j = 0; j < brick.width; j++) {
       for (var k = 0; k < brick.height; k++) {
         _grid[firstIndex + __getGridPos(j, k)] = brick.id;
@@ -100,7 +98,7 @@ class WallBuildHandler {
     }
   }
 
-  void _setBrickPosition(Brick brick) {
+  void _computeStonePosition(Stone stone) {
     // find first place in grid that accept brick's surface
     bool found = false;
     int startSearchPlace = 0;
@@ -108,10 +106,10 @@ class WallBuildHandler {
 
     while (!found) {
       availablePlace = _grid.indexWhere((element) => element == null, startSearchPlace);
-      found = __canFit(brick, availablePlace);
+      found = __canFit(stone, availablePlace);
       startSearchPlace = availablePlace + 1;
     }
-    __placeOnGrid(brick, availablePlace);
+    __placeOnGrid(stone, availablePlace);
   }
 
   WallSize _computeSize() {
@@ -134,8 +132,8 @@ class WallBuildHandler {
     return _wallSize.width;
   }
 
-  BrickPosition getPosition(Brick brick) {
-    int start = this._grid.indexOf(brick.id);
+  StonePosition getPosition(Stone stone) {
+    int start = this._grid.indexOf(stone.id);
     int x, y;
     if(this.direction == Axis.vertical) {
       x = start % axisSeparations;
@@ -146,7 +144,7 @@ class WallBuildHandler {
       y = start % axisSeparations;
 
     }
-    return BrickPosition(x: x, y: y);
+    return StonePosition(x: x, y: y);
   }
 
   @override

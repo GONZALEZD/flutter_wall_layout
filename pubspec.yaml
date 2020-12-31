@@ -1,8 +1,8 @@
 name: flutter_wall_layout
-description: A new Flutter package project.
-version: 0.0.1
-author:
-homepage:
+description: A Layout widget displaying a set of bricks (widgets with different shapes) as a vertical or horizontal list, like a wall...
+version: 1.0.0
+author: David GONZALEZ (david.gonzalez.freelance@gmail.com)
+homepage: https://github.com/GONZALEZD/flutter_wall_layout
 
 environment:
   sdk: ">=2.7.0 <3.0.0"

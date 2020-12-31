@@ -1,14 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_wall_layout/brick.dart';
+import 'package:flutter_wall_layout/stone.dart';
 import 'package:flutter_wall_layout/wall_build_handler.dart';
 
 class WallLayout extends StatefulWidget {
   static const double DEFAULT_BRICK_PADDING = 16.0;
 
   final int axisDivisions;
-  final List<Brick> bricks;
-  final double brickPadding;
+  final List<Stone> stones;
+  final double stonePadding;
   final ScrollController scrollController;
   final ScrollPhysics physics;
   final String restaurationId;
@@ -21,8 +21,8 @@ class WallLayout extends StatefulWidget {
 
   WallLayout(
       {this.axisDivisions,
-        this.bricks,
-        this.brickPadding = DEFAULT_BRICK_PADDING,
+        this.stones,
+        this.stonePadding = DEFAULT_BRICK_PADDING,
         this.scrollController,
         this.primary,
         this.physics,
@@ -32,10 +32,10 @@ class WallLayout extends StatefulWidget {
         this.scrollDirection = Axis.vertical,
         this.reverse = false})
       : super() {
-    this.bricks.forEach((brick) {
-      final constrainedSide = this.scrollDirection == Axis.vertical ? brick.width : brick.height;
+    this.stones.forEach((stone) {
+      final constrainedSide = this.scrollDirection == Axis.vertical ? stone.width : stone.height;
       assert(constrainedSide <= this.axisDivisions,
-      "Brick $brick is too big to fit in wall : constrained side ($constrainedSide) is higher than axisDivision ($axisDivisions)");
+      "Stone $stone is too big to fit in wall : constrained side ($constrainedSide) is higher than axisDivision ($axisDivisions)");
     });
   }
 
@@ -55,7 +55,7 @@ class _WallLayoutState extends State<WallLayout> {
   void _resetHandler() {
     _handler = WallBuildHandler(
       axisSeparations: this.widget.axisDivisions,
-      bricks: this.widget.bricks,
+      stones: this.widget.stones,
       direction: this.widget.scrollDirection,
       reverse: this.widget.reverse,
     );
@@ -68,7 +68,7 @@ class _WallLayoutState extends State<WallLayout> {
     if (this.widget.axisDivisions != _handler.axisSeparations ||
         this.widget.scrollDirection != _handler.direction ||
         this.widget.reverse != _handler.reverse ||
-        oldWidget.bricks != this.widget.bricks) {
+        oldWidget.stones != this.widget.stones) {
       _resetHandler();
     }
   }
@@ -85,8 +85,8 @@ class _WallLayoutState extends State<WallLayout> {
       primary: this.widget.primary,
       clipBehavior: this.widget.clipBehavior,
       child: CustomMultiChildLayout(
-        delegate: _WallLayoutDelegate(handler: _handler, brickPadding: this.widget.brickPadding),
-        children: this.widget.bricks,
+        delegate: _WallLayoutDelegate(handler: _handler, stonePadding: this.widget.stonePadding),
+        children: this.widget.stones,
       ),
     );
   }
@@ -94,9 +94,9 @@ class _WallLayoutState extends State<WallLayout> {
 
 class _WallLayoutDelegate extends MultiChildLayoutDelegate {
   final WallBuildHandler handler;
-  final double brickPadding;
+  final double stonePadding;
 
-  _WallLayoutDelegate({this.brickPadding, this.handler, Listenable relayout})
+  _WallLayoutDelegate({this.stonePadding, this.handler, Listenable relayout})
       : super(relayout: relayout);
 
   @override
@@ -104,7 +104,7 @@ class _WallLayoutDelegate extends MultiChildLayoutDelegate {
     final constrainedSide =
     this.handler.direction == Axis.vertical ? constraints.maxWidth : constraints.maxHeight;
 
-    final side = (constrainedSide - this.brickPadding) / this.handler.axisSeparations;
+    final side = (constrainedSide - this.stonePadding) / this.handler.axisSeparations;
     return Size(this.handler.width.toDouble(), this.handler.height.toDouble()) * side;
   }
 
@@ -112,16 +112,16 @@ class _WallLayoutDelegate extends MultiChildLayoutDelegate {
   void performLayout(Size size) {
     double side = (this.handler.direction == Axis.vertical ? size.width : size.height) /
         this.handler.axisSeparations;
-    final initialPadding = Offset(this.brickPadding, this.brickPadding);
-    this.handler.bricks.forEach((brick) {
-      Offset offset = this.handler.getPosition(brick) * side;
+    final initialPadding = Offset(this.stonePadding, this.stonePadding);
+    this.handler.stones.forEach((stone) {
+      Offset offset = this.handler.getPosition(stone) * side;
       Size size = Size(
-        brick.width * side - this.brickPadding,
-        brick.height * side - this.brickPadding,
+        stone.width * side - this.stonePadding,
+        stone.height * side - this.stonePadding,
       );
 
-      positionChild(brick.id, initialPadding + offset);
-      layoutChild(brick.id, BoxConstraints.tight(size));
+      positionChild(stone.id, initialPadding + offset);
+      layoutChild(stone.id, BoxConstraints.tight(size));
     });
   }
 

@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="574b991b-0841-4e11-a7b7-13611c36a8b5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/test/flutter_wall_layout_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/flutter_wall_layout_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/brick.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/stone.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/flutter_wall_layout.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flutter_wall_layout.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/wall_build_handler.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/wall_build_handler.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/wall_layout.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/wall_layout.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

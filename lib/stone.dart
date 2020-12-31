@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-class Brick extends LayoutId {
+class Stone extends LayoutId {
   final int width;
   final int height;
 
-  Brick({int id, Widget child, this.width, this.height}) : super(child: child, id: id);
+  Stone({int id, Widget child, this.width, this.height}) : super(child: child, id: id);
 
   int get surface => width * height;
 
