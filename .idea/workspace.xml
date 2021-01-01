@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="574b991b-0841-4e11-a7b7-13611c36a8b5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/lib/flutter_wall_layout.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flutter_wall_layout.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flutter_wall_layout.iml" beforeDir="false" afterPath="$PROJECT_DIR$/flutter_wall_layout.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/layout/wall_layout.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/layout/wall_layout.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +36,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
+    <property name="io.flutter.reload.alreadyRun" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
@@ -41,37 +45,15 @@
       <recent name="$PROJECT_DIR$/lib/internal" />
     </key>
   </component>
-  <component name="RunManager" selected="Flutter Test.tests in wall_build_handler_test.dart">
-    <configuration name="Wall build Handler Class" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
-      <option name="testName" value="Wall build Handler Class" />
-      <option name="testFile" value="$PROJECT_DIR$/test/wall_build_handler_test.dart" />
+  <component name="RunManager" selected="Flutter.main.dart">
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="filePath" value="$PROJECT_DIR$/example/lib/main.dart" />
       <method v="2" />
     </configuration>
-    <configuration name="tests in stone_position_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
-      <option name="testFile" value="$PROJECT_DIR$/test/stone_position_test.dart" />
+    <configuration name="tests in test" type="FlutterTestConfigType" factoryName="Flutter Test" nameIsGenerated="true">
+      <option name="testDir" value="$PROJECT_DIR$/test" />
       <method v="2" />
     </configuration>
-    <configuration name="tests in wall_build_handler_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
-      <option name="testFile" value="$PROJECT_DIR$/test/wall_build_handler_test.dart" />
-      <method v="2" />
-    </configuration>
-    <configuration name="tests in wall_layout_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
-      <option name="testFile" value="$PROJECT_DIR$/test/wall_layout_test.dart" />
-      <method v="2" />
-    </configuration>
-    <configuration name="tests in wall_size_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
-      <option name="testFile" value="$PROJECT_DIR$/test/wall_size_test.dart" />
-      <method v="2" />
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Flutter Test.tests in wall_build_handler_test.dart" />
-        <item itemvalue="Flutter Test.tests in stone_position_test.dart" />
-        <item itemvalue="Flutter Test.tests in wall_size_test.dart" />
-        <item itemvalue="Flutter Test.Wall build Handler Class" />
-        <item itemvalue="Flutter Test.tests in wall_layout_test.dart" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -87,26 +69,30 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1073" height="207" key="GridCell.Tab.0.bottom" timestamp="1609512858057">
+    <state x="22" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1609513634212">
       <screen x="0" y="25" width="1440" height="813" />
     </state>
-    <state width="1073" height="207" key="GridCell.Tab.0.bottom/0.25.1440.813@0.25.1440.813" timestamp="1609512858057" />
-    <state width="1073" height="207" key="GridCell.Tab.0.center" timestamp="1609512858057">
+    <state x="22" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1440.813@0.25.1440.813" timestamp="1609513634212" />
+    <state width="1073" height="254" key="GridCell.Tab.0.bottom" timestamp="1609525859226">
       <screen x="0" y="25" width="1440" height="813" />
     </state>
-    <state width="1073" height="207" key="GridCell.Tab.0.center/0.25.1440.813@0.25.1440.813" timestamp="1609512858057" />
-    <state width="1073" height="207" key="GridCell.Tab.0.left" timestamp="1609512858056">
+    <state width="1073" height="254" key="GridCell.Tab.0.bottom/0.25.1440.813@0.25.1440.813" timestamp="1609525859226" />
+    <state width="1073" height="254" key="GridCell.Tab.0.center" timestamp="1609525859225">
       <screen x="0" y="25" width="1440" height="813" />
     </state>
-    <state width="1073" height="207" key="GridCell.Tab.0.left/0.25.1440.813@0.25.1440.813" timestamp="1609512858056" />
-    <state width="1073" height="207" key="GridCell.Tab.0.right" timestamp="1609512858057">
+    <state width="1073" height="254" key="GridCell.Tab.0.center/0.25.1440.813@0.25.1440.813" timestamp="1609525859225" />
+    <state width="1073" height="254" key="GridCell.Tab.0.left" timestamp="1609525859225">
       <screen x="0" y="25" width="1440" height="813" />
     </state>
-    <state width="1073" height="207" key="GridCell.Tab.0.right/0.25.1440.813@0.25.1440.813" timestamp="1609512858057" />
-    <state width="460" height="114" key="javadoc.popup.new" timestamp="1609513452046">
+    <state width="1073" height="254" key="GridCell.Tab.0.left/0.25.1440.813@0.25.1440.813" timestamp="1609525859225" />
+    <state width="1073" height="254" key="GridCell.Tab.0.right" timestamp="1609525859226">
       <screen x="0" y="25" width="1440" height="813" />
     </state>
-    <state width="460" height="114" key="javadoc.popup.new/0.25.1440.813@0.25.1440.813" timestamp="1609513452046" />
+    <state width="1073" height="254" key="GridCell.Tab.0.right/0.25.1440.813@0.25.1440.813" timestamp="1609525859226" />
+    <state width="460" height="114" key="javadoc.popup.new" timestamp="1609525984591">
+      <screen x="0" y="25" width="1440" height="813" />
+    </state>
+    <state width="460" height="114" key="javadoc.popup.new/0.25.1440.813@0.25.1440.813" timestamp="1609525984591" />
     <state x="222" y="162" width="670" height="676" key="search.everywhere.popup" timestamp="1609511651861">
       <screen x="0" y="25" width="1440" height="813" />
     </state>

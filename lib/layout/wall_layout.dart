@@ -11,7 +11,7 @@ class WallLayout extends StatefulWidget {
   final double stonePadding;
   final ScrollController scrollController;
   final ScrollPhysics physics;
-  final String restaurationId;
+  final String restorationId;
   final DragStartBehavior dragStartBehavior;
   final Clip clipBehavior;
   final bool primary;
@@ -26,7 +26,7 @@ class WallLayout extends StatefulWidget {
       this.scrollController,
       this.primary,
       this.physics,
-      this.restaurationId,
+      this.restorationId,
       this.clipBehavior = Clip.hardEdge,
       this.dragStartBehavior = DragStartBehavior.start,
       this.scrollDirection = Axis.vertical,
@@ -87,7 +87,7 @@ class _WallLayoutState extends State<WallLayout> {
     return SingleChildScrollView(
       reverse: this.widget.reverse,
       scrollDirection: this.widget.scrollDirection,
-      restorationId: this.widget.restaurationId,
+      restorationId: this.widget.restorationId,
       controller: this.widget.scrollController,
       physics: this.widget.physics,
       dragStartBehavior: this.widget.dragStartBehavior,
@@ -113,13 +113,13 @@ class _WallLayoutDelegate extends MultiChildLayoutDelegate {
     final constrainedSide =
         this.handler.direction == Axis.vertical ? constraints.maxWidth : constraints.maxHeight;
 
-    final side = (constrainedSide - this.stonePadding) / this.handler.axisSeparations;
+    final side = (constrainedSide / this.handler.axisSeparations);
     return this.handler.size * side;
   }
 
   @override
   void performLayout(Size size) {
-    double side = (this.handler.direction == Axis.vertical ? size.width : size.height) /
+    double side = ((this.handler.direction == Axis.vertical ? size.width : size.height) - this.stonePadding) /
         this.handler.axisSeparations;
     final initialPadding = Offset(this.stonePadding, this.stonePadding);
     this.handler.stones.forEach((stone) {
