@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_wall_layout/stone.dart';
-import 'package:flutter_wall_layout/wall_build_handler.dart';
+import 'package:flutter_wall_layout/layout/stone.dart';
+import 'package:flutter_wall_layout/layout/wall_build_handler.dart';
 
 class WallLayout extends StatefulWidget {
   static const double DEFAULT_BRICK_PADDING = 16.0;
@@ -21,21 +21,30 @@ class WallLayout extends StatefulWidget {
 
   WallLayout(
       {this.axisDivisions,
-        this.stones,
-        this.stonePadding = DEFAULT_BRICK_PADDING,
-        this.scrollController,
-        this.primary,
-        this.physics,
-        this.restaurationId,
-        this.clipBehavior =  Clip.hardEdge,
-        this.dragStartBehavior = DragStartBehavior.start,
-        this.scrollDirection = Axis.vertical,
-        this.reverse = false})
-      : super() {
+      this.stones,
+      this.stonePadding = DEFAULT_BRICK_PADDING,
+      this.scrollController,
+      this.primary,
+      this.physics,
+      this.restaurationId,
+      this.clipBehavior = Clip.hardEdge,
+      this.dragStartBehavior = DragStartBehavior.start,
+      this.scrollDirection = Axis.vertical,
+      this.reverse = false})
+      : assert(stones != null && stones.isNotEmpty),
+        assert(axisDivisions != null && axisDivisions >= 2,
+            "You must define divisions from main axis, and higher or equal to 2"),
+        assert(stonePadding != null && stonePadding >= 0.0),
+        assert(!(scrollController != null && primary == true),
+        'Primary ScrollViews obtain their ScrollController via inheritance from a PrimaryScrollController widget. '
+            'You cannot both set primary to true and pass an explicit controller.'
+        ),
+        super() {
+    assert(this.stones.map((stone) => stone.id).toSet().length == this.stones.length, "Stones identifier must be unique.");
     this.stones.forEach((stone) {
       final constrainedSide = this.scrollDirection == Axis.vertical ? stone.width : stone.height;
       assert(constrainedSide <= this.axisDivisions,
-      "Stone $stone is too big to fit in wall : constrained side ($constrainedSide) is higher than axisDivision ($axisDivisions)");
+          "Stone $stone is too big to fit in wall : constrained side ($constrainedSide) is higher than axisDivision ($axisDivisions)");
     });
   }
 
@@ -102,10 +111,10 @@ class _WallLayoutDelegate extends MultiChildLayoutDelegate {
   @override
   Size getSize(BoxConstraints constraints) {
     final constrainedSide =
-    this.handler.direction == Axis.vertical ? constraints.maxWidth : constraints.maxHeight;
+        this.handler.direction == Axis.vertical ? constraints.maxWidth : constraints.maxHeight;
 
     final side = (constrainedSide - this.stonePadding) / this.handler.axisSeparations;
-    return Size(this.handler.width.toDouble(), this.handler.height.toDouble()) * side;
+    return this.handler.size * side;
   }
 
   @override

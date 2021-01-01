@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wall_layout/stone.dart';
+import 'package:flutter_wall_layout/layout/stone.dart';
 
 /// Relative position of a stone in the Wall.
 class StonePosition {
   /// Wall column position.
   final int x;
+
   /// Wall row position.
   final int y;
 
-  StonePosition({this.x, this.y});
+  StonePosition({this.x, this.y})
+      : assert(x != null && x >= 0),
+        assert(y != null && y >= 0);
 
   /// Computes the absolute brick position in a wall.
   /// [stoneSide] represents the smallest stone width/height.
@@ -19,11 +22,32 @@ class WallSize {
   final int width;
   final int height;
 
-  WallSize(this.width, this.height);
+  WallSize(this.width, this.height)
+      : assert(width != null && width > 0),
+        assert(height != null && height > 0);
 
   get flipped => WallSize(this.height, this.width);
 
-  get surface => this.height*this.width;
+  get surface => this.height * this.width;
+
+  Size operator *(double stoneSide) =>
+      Size(width.toDouble() * stoneSide, height.toDouble() * stoneSide);
+
+  @override
+  int get hashCode => hashList([width, height]);
+
+  @override
+  bool operator ==(Object other) {
+    if (other is WallSize) {
+      return this.width == other.width && this.height == other.height;
+    }
+    return super == other;
+  }
+
+  @override
+  String toString() {
+    return "$WallSize(width:$width, height:$height)";
+  }
 }
 
 /// Class determining how the wall will be built.
@@ -38,32 +62,35 @@ class WallBuildHandler {
 
   final List<Stone> stones;
 
-  List<int> _grid;
+  List<int> grid;
   WallSize _wallSize;
 
   WallBuildHandler(
-      {this.axisSeparations, this.reverse = false, this.direction = Axis.vertical, this.stones}) {
-    _grid = [];
+      {this.axisSeparations, this.reverse = false, this.direction = Axis.vertical, this.stones})
+      : assert(axisSeparations != null && axisSeparations >= 2),
+        assert(direction != null),
+        assert(stones != null && stones.isNotEmpty) {
+    grid = [];
     _wallSize = null;
   }
 
   void setup() {
     // instantiate grid
     final surface = this.stones.fold(0, (sum, cell) => sum + cell.surface);
-    _grid = List<int>.generate(surface * axisSeparations, (index) => null);
+    grid = List<int>.generate(surface * axisSeparations, (index) => null);
 
     // set stones positions in grid
-    this.stones.forEach((stone) => _computeStonePosition(stone));
+    this.stones.forEach((stone) => computeStonePosition(stone));
 
     //compute grid height and width
-    _wallSize = _computeSize();
+    _wallSize = computeSize();
 
     //remove unwanted grid data
-    _grid.removeRange(_wallSize.surface, _grid.length);
+    grid.removeRange(_wallSize.surface, grid.length);
 
     //reverse grid if we are in reverse display mode
-    if(this.reverse) {
-      _grid = _grid.reversed.toList();
+    if (this.reverse) {
+      grid = grid.reversed.toList();
     }
   }
 
@@ -76,7 +103,7 @@ class WallBuildHandler {
     bool found = true;
     for (var j = 0; j < stone.width; j++) {
       for (var k = 0; k < stone.height; k++) {
-        found &= _grid[firstIndex + __getGridPos(j, k)] == null;
+        found &= grid[firstIndex + __getGridPos(j, k)] == null;
       }
     }
     return found;
@@ -93,27 +120,27 @@ class WallBuildHandler {
   void __placeOnGrid(Stone brick, int firstIndex) {
     for (var j = 0; j < brick.width; j++) {
       for (var k = 0; k < brick.height; k++) {
-        _grid[firstIndex + __getGridPos(j, k)] = brick.id;
+        grid[firstIndex + __getGridPos(j, k)] = brick.id;
       }
     }
   }
 
-  void _computeStonePosition(Stone stone) {
+  void computeStonePosition(Stone stone) {
     // find first place in grid that accept brick's surface
     bool found = false;
     int startSearchPlace = 0;
     int availablePlace;
 
     while (!found) {
-      availablePlace = _grid.indexWhere((element) => element == null, startSearchPlace);
+      availablePlace = grid.indexWhere((element) => element == null, startSearchPlace);
       found = __canFit(stone, availablePlace);
       startSearchPlace = availablePlace + 1;
     }
     __placeOnGrid(stone, availablePlace);
   }
 
-  WallSize _computeSize() {
-    final lastIndex = _grid.lastIndexWhere((element) => element != null);
+  WallSize computeSize() {
+    final lastIndex = grid.lastIndexWhere((element) => element != null);
     final largeSide = (lastIndex ~/ axisSeparations) + 1;
     WallSize size = WallSize(this.axisSeparations, largeSide);
     if (this.direction == Axis.horizontal) {
@@ -122,27 +149,20 @@ class WallBuildHandler {
     return size;
   }
 
-  int get height {
+  WallSize get size {
     assert(_wallSize != null, "Must call setup first");
-    return _wallSize.height;
-  }
-
-  int get width {
-    assert(_wallSize != null, "Must call setup first");
-    return _wallSize.width;
+    return _wallSize;
   }
 
   StonePosition getPosition(Stone stone) {
-    int start = this._grid.indexOf(stone.id);
+    int start = this.grid.indexOf(stone.id);
     int x, y;
-    if(this.direction == Axis.vertical) {
+    if (this.direction == Axis.vertical) {
       x = start % axisSeparations;
       y = start ~/ axisSeparations;
-    }
-    else {
+    } else {
       x = start ~/ axisSeparations;
       y = start % axisSeparations;
-
     }
     return StonePosition(x: x, y: y);
   }
@@ -151,13 +171,13 @@ class WallBuildHandler {
   String toString() {
     final stringBuffer = StringBuffer("$WallBuildHandler\n");
     if (this.direction == Axis.vertical) {
-      for (int i = 0; i < _grid.length; i += axisSeparations) {
-        stringBuffer.writeln(_grid.sublist(i, i + axisSeparations).join(" | "));
+      for (int i = 0; i < grid.length; i += axisSeparations) {
+        stringBuffer.writeln(grid.sublist(i, i + axisSeparations).join(" | "));
       }
     } else {
       List<List<int>> rows = List<List<int>>.generate(axisSeparations, (index) => List<int>());
-      for (int i = 0; i < _grid.length; i++) {
-        rows[i % axisSeparations].add(_grid[i]);
+      for (int i = 0; i < grid.length; i++) {
+        rows[i % axisSeparations].add(grid[i]);
       }
       rows.forEach((row) => stringBuffer.writeln(row.join(" | ")));
     }

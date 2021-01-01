@@ -5,7 +5,12 @@ class Stone extends LayoutId {
   final int width;
   final int height;
 
-  Stone({int id, Widget child, this.width, this.height}) : super(child: child, id: id);
+  Stone({int id, Widget child, this.width, this.height})
+      : assert(width != null),
+        assert(width > 0),
+        assert(height != null),
+        assert(height > 0),
+        super(child: child, id: id);
 
   int get surface => width * height;
 
