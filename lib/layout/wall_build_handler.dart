@@ -18,18 +18,29 @@ class StonePosition {
   Offset operator *(double stoneSide) => Offset(this.x * stoneSide, this.y * stoneSide);
 }
 
+/// Define the wall width and height, where 1 unit refers to the side of a wall layer.
+/// So all these values must be multiplied by the length of a side (in logical pixels),
+/// if you want to have to logical pixels dimension.
 class WallSize {
+
+  /// Wall relative width
   final int width;
+
+  /// Wall relative height
   final int height;
 
   WallSize(this.width, this.height)
       : assert(width != null && width > 0),
         assert(height != null && height > 0);
 
+  /// Flip width with Height, and returns a new instance
   get flipped => WallSize(this.height, this.width);
 
+  /// Compute surface area of the wall size
   get surface => this.height * this.width;
 
+  /// Let's you multiply the wall size by a logical pixels width,
+  /// to have the logical pixels dimensions of the wall.
   Size operator *(double stoneSide) =>
       Size(width.toDouble() * stoneSide, height.toDouble() * stoneSide);
 
@@ -56,13 +67,20 @@ class WallBuildHandler {
   /// Define how many columns the wall possess.
   final int axisSeparations;
 
+  /// Define wether the wall must be displayed in reverse, like [ListView].reverse input parameter.
   final bool reverse;
 
+  /// Define wall build direction, like [ListView].direction input parameter.
   final Axis direction;
 
+  /// Stones that will be used to build the wall.
   final List<Stone> stones;
 
+  /// Internal attribute storing stones positions as a 2D Table.
+  /// Only public for testing purpose; consequently this class must remain hidden from users.
   List<int> grid;
+
+  /// Internal attribute storing wall final size, once computed.
   WallSize _wallSize;
 
   WallBuildHandler(
@@ -74,6 +92,8 @@ class WallBuildHandler {
     _wallSize = null;
   }
 
+  /// Compute stones position and wall size.
+  /// Must be executed before accessing to wall size property and getPosition method.
   void setup() {
     // instantiate grid
     final surface = this.stones.fold(0, (sum, cell) => sum + cell.surface);
@@ -125,6 +145,8 @@ class WallBuildHandler {
     }
   }
 
+  /// Compute the position of the stone, and set it on the grid.
+  /// Only public for testing purpose; consequently this class must remain hidden from users.
   void computeStonePosition(Stone stone) {
     // find first place in grid that accept brick's surface
     bool found = false;
@@ -139,6 +161,8 @@ class WallBuildHandler {
     __placeOnGrid(stone, availablePlace);
   }
 
+  /// Compute wall final size, (after having positioned all stones in the grid).
+  /// Only public for testing purpose; consequently this class must remain hidden from users.
   WallSize computeSize() {
     final lastIndex = grid.lastIndexWhere((element) => element != null);
     final largeSide = (lastIndex ~/ axisSeparations) + 1;
@@ -149,12 +173,17 @@ class WallBuildHandler {
     return size;
   }
 
+  /// Returns the final wall size.
+  /// Throw an error is [setup] method hasn't been called before.
   WallSize get size {
-    assert(_wallSize != null, "Must call setup first");
+    assert(_wallSize != null, "Must call $WallBuildHandler::$setup method first");
     return _wallSize;
   }
 
+  /// Returns the position of a specific stone.
+  /// Throw an error is [setup] method hasn't been called before.
   StonePosition getPosition(Stone stone) {
+    assert(this.grid.contains(stone.id), "Must call $WallBuildHandler::$setup method first");
     int start = this.grid.indexOf(stone.id);
     int x, y;
     if (this.direction == Axis.vertical) {

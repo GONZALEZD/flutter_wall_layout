@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_wall_layout/layout/wall_build_handler.dart';
 
 void main() {
-  group("$StonePosition", () {
+  group("$StonePosition Class", () {
     test("Initialisation", () {
       expect(() => StonePosition(), throwsAssertionError, reason: "Stone must throw error if X and Y not defined.");
       expect(() => StonePosition(y: 2), throwsAssertionError, reason: "Stone must throw error if X is not defined.");

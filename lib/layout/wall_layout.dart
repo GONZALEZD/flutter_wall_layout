@@ -6,17 +6,39 @@ import 'package:flutter_wall_layout/layout/wall_build_handler.dart';
 class WallLayout extends StatefulWidget {
   static const double DEFAULT_BRICK_PADDING = 16.0;
 
+  /// Define the number of layers the wall have. Must be higher or equal to 2.
+  /// When direction is Axis.vertical, it defines the number of columns the wall has.
+  /// When direction is Axis.horizontal, it defines the number of rows.
   final int layersCount;
+
+  /// List of Stone widgets, representing wall layout's children.
   final List<Stone> stones;
+
+  /// Padding between stones.
   final double stonePadding;
+
+  /// Same as [ListView].scrollController: "control the position to which this scroll view is scrolled".
   final ScrollController scrollController;
+
+  /// Same as [ListView].physics: "How the scroll view should respond to user input".
   final ScrollPhysics physics;
+
+  /// Same as [ListView].restorationId: used "to save and restore the scroll offset of the scrollable".
   final String restorationId;
+
+  /// Same as [ListView].dragStartBehavior: "Determines the way that drag start behavior is handled".
   final DragStartBehavior dragStartBehavior;
+
+  /// Same as [ListView].clipBehavior: "ways to clip a widget's content".
   final Clip clipBehavior;
+
+  /// Same as [ListView].primary: "Whether this is the primary scroll view associated with the parent [PrimaryScrollController]".
   final bool primary;
 
+  /// Same as [ListView].scrollDirection: "axis along which the scroll view scrolls".
   final Axis scrollDirection;
+
+  /// Same as [ListView].reverse: "whether the scroll view scrolls in the reading direction".
   final bool reverse;
 
   WallLayout(
@@ -101,6 +123,7 @@ class _WallLayoutState extends State<WallLayout> {
   }
 }
 
+/// Delegates for CustomMultiChildLayout that position and size Stones.
 class _WallLayoutDelegate extends MultiChildLayoutDelegate {
   final WallBuildHandler handler;
   final double stonePadding;

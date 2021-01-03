@@ -44,5 +44,10 @@ void main() {
       expect(handler.size, WallSize(3, 3), reason: "Computed wall size is incorrect");
       expect(handler.grid, [null, 4, 3, 2, 2, 1, 2, 2, 1], reason: "Computed grid is incorrect");
     });
+    test("Illegal size and getPosition accesses", () {
+      final handler = WallBuildHandler(stones: stones, axisSeparations: 3, direction: Axis.horizontal, reverse: true);
+      expect(()=> handler.size, throwsAssertionError, reason:"Accessing to size property must throw an error if setup method hasn't been previously called.");
+      expect(()=> handler.getPosition(stones[0]), throwsAssertionError, reason:"Calling getPosition method must throw an error if setup method hasn't been previously called.");
+    });
   });
 }
