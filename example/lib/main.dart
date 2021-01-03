@@ -176,8 +176,17 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       {"color": Colors.purple, "width": 2, "height": 1},
       {"color": Colors.yellow, "width": 1, "height": 1},
       {"color": Colors.cyanAccent, "width": 1, "height": 1},
-      {"color": Colors.orange, "width": 2, "height": 2},
+      {"color": Colors.orange, "width": 3, "height": 2},
       {"color": Colors.green, "width": 1, "height": 1},
+      {"color": Colors.pink, "width": 2, "height": 1},
+      {"color": Colors.blueAccent, "width": 1, "height": 1},
+      {"color": Colors.amber, "width": 1, "height": 2},
+      {"color": Colors.teal, "width": 2, "height": 1},
+      {"color": Colors.lightGreenAccent, "width": 1, "height": 1},
+      {"color": Colors.deepOrange, "width": 1, "height": 1},
+      {"color": Colors.deepPurpleAccent, "width": 2, "height": 2},
+      {"color": Colors.lightBlueAccent, "width": 1, "height": 1},
+      {"color": Colors.limeAccent, "width": 1, "height": 1},
     ];
     return data.map((d) {
       int width = d["width"];
