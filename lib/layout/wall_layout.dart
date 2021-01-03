@@ -6,7 +6,7 @@ import 'package:flutter_wall_layout/layout/wall_build_handler.dart';
 class WallLayout extends StatefulWidget {
   static const double DEFAULT_BRICK_PADDING = 16.0;
 
-  final int axisDivisions;
+  final int layersCount;
   final List<Stone> stones;
   final double stonePadding;
   final ScrollController scrollController;
@@ -20,7 +20,7 @@ class WallLayout extends StatefulWidget {
   final bool reverse;
 
   WallLayout(
-      {this.axisDivisions,
+      {this.layersCount,
       this.stones,
       this.stonePadding = DEFAULT_BRICK_PADDING,
       this.scrollController,
@@ -32,8 +32,8 @@ class WallLayout extends StatefulWidget {
       this.scrollDirection = Axis.vertical,
       this.reverse = false})
       : assert(stones != null && stones.isNotEmpty),
-        assert(axisDivisions != null && axisDivisions >= 2,
-            "You must define divisions from main axis, and higher or equal to 2"),
+        assert(layersCount != null && layersCount >= 2,
+            "You must define layers count from as an integer higher or equal to 2"),
         assert(stonePadding != null && stonePadding >= 0.0),
         assert(!(scrollController != null && primary == true),
         'Primary ScrollViews obtain their ScrollController via inheritance from a PrimaryScrollController widget. '
@@ -43,8 +43,8 @@ class WallLayout extends StatefulWidget {
     assert(this.stones.map((stone) => stone.id).toSet().length == this.stones.length, "Stones identifier must be unique.");
     this.stones.forEach((stone) {
       final constrainedSide = this.scrollDirection == Axis.vertical ? stone.width : stone.height;
-      assert(constrainedSide <= this.axisDivisions,
-          "Stone $stone is too big to fit in wall : constrained side ($constrainedSide) is higher than axisDivision ($axisDivisions)");
+      assert(constrainedSide <= this.layersCount,
+          "Stone $stone is too big to fit in wall : constrained side ($constrainedSide) is higher than axisDivision ($layersCount)");
     });
   }
 
@@ -63,7 +63,7 @@ class _WallLayoutState extends State<WallLayout> {
 
   void _resetHandler() {
     _handler = WallBuildHandler(
-      axisSeparations: this.widget.axisDivisions,
+      axisSeparations: this.widget.layersCount,
       stones: this.widget.stones,
       direction: this.widget.scrollDirection,
       reverse: this.widget.reverse,
@@ -74,7 +74,7 @@ class _WallLayoutState extends State<WallLayout> {
   @override
   void didUpdateWidget(covariant WallLayout oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (this.widget.axisDivisions != _handler.axisSeparations ||
+    if (this.widget.layersCount != _handler.axisSeparations ||
         this.widget.scrollDirection != _handler.direction ||
         this.widget.reverse != _handler.reverse ||
         oldWidget.stones != this.widget.stones) {

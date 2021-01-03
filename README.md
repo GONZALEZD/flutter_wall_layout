@@ -15,7 +15,7 @@ Added to that, you can also define how many rows or column have the wall, if you
 ```dart
 WallLayout(
   stones: _buildStonesList(),
-  axisDivisions: 3,
+  layersCount: 3,
   scrollDirection: Axis.vertical,
   reverse: false,
 );
@@ -26,7 +26,7 @@ WallLayout(
 | Parameter          | Description                                       | Default value  |
 | ------------------ | ------------------------------------------------- | -------------- |
 | stones             | List of Stone widgets, representing wall layout's children. | -                       |
-| axisDivisions      | Define the number of divisions the wall have. Must be higher or equal to 2. | -                       |
+| layersCount        | Define the number of layers the wall have. Must be higher or equal to 2. When direction is Axis.vertical, it defines the number of columns the wall has. When direction is Axis.horizontal, it defines the number of rows. | -                       |
 | stonePadding       | Padding between stones. | 16.0                    |
 | scrollController   | Same as [ListView.scrollController]: "control the position to which this scroll view is scrolled". | -                       |
 | physics            | Same as [ListView.physics]: "How the scroll view should respond to user input". | -                       |

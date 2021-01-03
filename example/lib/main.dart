@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   AnimationController _controller;
   bool _reversed;
   Axis _direction;
-  int _divisions;
+  int _nbLayers;
   bool _wrapedOptions;
 
   @override
@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     _controller = AnimationController(duration: Duration(milliseconds: 500), vsync: this);
     _reversed = false;
     _direction = Axis.vertical;
-    _divisions = 3;
+    _nbLayers = 3;
     _controller.forward(from: 0);
     _wrapedOptions = true;
   }
@@ -105,13 +105,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   Widget __buildDivisionsOption() {
     return _buildOption(
-      "Divisions",
+      "Layers",
       CupertinoSegmentedControl(
-        groupValue: _divisions,
+        groupValue: _nbLayers,
         children: {2: Text("2"), 3: Text("3"), 4: Text("4")},
         onValueChanged: (value) => setState(() {
           _controller.forward(from: 0.0);
-          _divisions = value;
+          _nbLayers = value;
         }),
       ),
     );
@@ -164,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       scrollDirection: _direction,
       stones: _buildStonesList(),
       reverse: _reversed,
-      axisDivisions: _divisions,
+      layersCount: _nbLayers,
     );
   }
 
@@ -176,7 +176,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       {"color": Colors.purple, "width": 2, "height": 1},
       {"color": Colors.yellow, "width": 1, "height": 1},
       {"color": Colors.cyanAccent, "width": 1, "height": 1},
-      {"color": Colors.orange, "width": 3, "height": 2},
+      {"color": Colors.orange, "width": 2, "height": 2},
       {"color": Colors.green, "width": 1, "height": 1},
       {"color": Colors.pink, "width": 2, "height": 1},
       {"color": Colors.blueAccent, "width": 1, "height": 1},
