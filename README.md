@@ -23,21 +23,19 @@ WallLayout(
 
 ### Wall Layout Widget Properties
 
-| ------------------ | -------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
-| Parameter          | Description                                                                                                                | Default value           |
-| ------------------ | -------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
-| stones             | List of Stone widgets, representing wall layout's children.                                                                | -                       |
-| axisDivisions      | Define the number of divisions the wall have. Must be higher or equal to 2.                                                | -                       |
-| stonePadding       | Padding between stones.                                                                                                    | 16.0                    |
-| scrollController   | Same as [ListView.scrollController]: "control the position to which this scroll view is scrolled"                          | -                       |
-| physics            | Same as [ListView.physics]: "How the scroll view should respond to user input"                                             | -                       |
-| restorationId      | Same as [ListView.restorationId]: used "to save and restore the scroll offset of the scrollable"                           | -                       |
-| dragStartBehavior  | Same as [ListView.dragStartBehavior]: "Determines the way that drag start behavior is handled"                             | DragStartBehavior.start |
-| clipBehavior       | Same as [ListView.clipBehavior]: "ways to clip a widget's content"                                                         | Clip.hardEdge           |
+| Parameter          | Description                                       | Default value  |
+| ------------------ | ------------------------------------------------- | -------------- |
+| stones             | List of Stone widgets, representing wall layout's children. | -                       |
+| axisDivisions      | Define the number of divisions the wall have. Must be higher or equal to 2. | -                       |
+| stonePadding       | Padding between stones. | 16.0                    |
+| scrollController   | Same as [ListView.scrollController]: "control the position to which this scroll view is scrolled". | -                       |
+| physics            | Same as [ListView.physics]: "How the scroll view should respond to user input". | -                       |
+| restorationId      | Same as [ListView.restorationId]: used "to save and restore the scroll offset of the scrollable". | -                       |
+| dragStartBehavior  | Same as [ListView.dragStartBehavior]: "Determines the way that drag start behavior is handled". | DragStartBehavior.start |
+| clipBehavior       | Same as [ListView.clipBehavior]: "ways to clip a widget's content". | Clip.hardEdge           |
 | primary            | Same as [ListView.primary]: "Whether this is the primary scroll view associated with the parent [PrimaryScrollController]" | false                   |
-| scrollDirection    | Same as [ListView.scrollDirection]: "axis along which the scroll view scrolls"                                             | Axis.vertical           |
-| reverse            | Same as [ListView.reverse property]: "whether the scroll view scrolls in the reading direction"                            | false                   |
-| ------------------ | -------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| scrollDirection    | Same as [ListView.scrollDirection]: "axis along which the scroll view scrolls". | Axis.vertical           |
+| reverse            | Same as [ListView.reverse property]: "whether the scroll view scrolls in the reading direction". | false                   |
 
 ### Stone Widget
 
@@ -58,11 +56,9 @@ Stone(
 
 ### Stone Widget Properties
 
-| --------- | ------------------------------------------------------------------------------------- | ----------------------- |
-| Parameter | Description                                                                           | Default value           |
-| --------- | ------------------------------------------------------------------------------------- | ----------------------- |
-| width     | Stone width (relative to the number of wall divisions). Must be higher or equal to 1  | -                       |
-| height    | Stone height (relative to the number of wall divisions). Must be higher or equal to 1 | -                       |
-| id        | Proxy layout identifier: must be unique                                               | -                       |
-| child     | Widget to render, where its size will be constrained by the stone width and height    | -                       |
-| --------- | ------------------------------------------------------------------------------------- | ----------------------- |
+| Parameter | Description                                             | Default value |
+| --------- | ------------------------------------------------------- | ------------- |
+| width     | Stone width (relative to the number of wall divisions). Must be higher or equal to 1. | -             |
+| height    | Stone height (relative to the number of wall divisions). Must be higher or equal to 1. | -             |
+| id        | Proxy layout identifier: must be unique. | -             |
+| child     | Widget to render, where its size will be constrained by the stone width and height. | -             |
