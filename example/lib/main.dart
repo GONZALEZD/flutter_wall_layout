@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -33,11 +33,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
-  AnimationController _controller;
-  bool _reversed;
-  Axis _direction;
-  int _nbLayers;
-  bool _wrapedOptions;
+  late final AnimationController _controller;
+  late bool _reversed;
+  late Axis _direction;
+  late int _nbLayers;
+  late bool _wrapedOptions;
 
   @override
   void initState() {
@@ -106,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Widget __buildDivisionsOption() {
     return _buildOption(
       "Layers",
-      CupertinoSegmentedControl(
+      CupertinoSegmentedControl<int>(
         groupValue: _nbLayers,
         children: {2: Text("2"), 3: Text("3"), 4: Text("4")},
         onValueChanged: (value) => setState(() {
@@ -120,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Widget __buildReverseOption() {
     return _buildOption(
       "Reverse",
-        CupertinoSegmentedControl(
+        CupertinoSegmentedControl<bool>(
           groupValue: _reversed,
           children: {false: Text("no"), true: Text("yes")},
           onValueChanged: (value) => setState(() {
@@ -134,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Widget __buildDirectionOption() {
     return _buildOption(
       "Direction",
-      CupertinoSegmentedControl(
+      CupertinoSegmentedControl<Axis>(
         groupValue: _direction,
         children: {Axis.vertical: Text("vertical"), Axis.horizontal: Text("horizontal")},
         onValueChanged: (value) => setState(() {
@@ -189,14 +189,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       {"color": Colors.limeAccent, "width": 1, "height": 1},
     ];
     return data.map((d) {
-      int width = d["width"];
-      int height = d["height"];
+      int width = d["width"] as int;
+      int height = d["height"] as int;
       return Stone(
         id: data.indexOf(d),
         width: width,
         height: height,
         child: __buildStoneChild(
-          background: d["color"],
+          background: d["color"] as Color,
           text: "${width}x$height",
           surface: (width * height).toDouble(),
         ),
@@ -204,7 +204,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     }).toList();
   }
 
-  Widget __buildStoneChild({Color background, String text, double surface}) {
+  Widget __buildStoneChild({required Color background, required String text, required double surface}) {
     return ScaleTransition(
       scale: CurveTween(curve: Interval(0.0, min(1.0, 0.25 + surface / 6.0))).animate(_controller),
       child: Container(

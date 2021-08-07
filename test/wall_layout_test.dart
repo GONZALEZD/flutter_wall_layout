@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_wall_layout/flutter_wall_layout.dart';
 
-import 'package:flutter_wall_layout/layout/wall_layout.dart';
+import 'package:flutter_wall_layout/src/wall_layout.dart';
 
 void main() {
-  List<Stone> stones;
+  late List<Stone> stones;
   setUp((){
     stones = [
       Stone(id: 1, child:Container(), width: 2, height: 2,),
@@ -19,9 +19,7 @@ void main() {
   });
   group("$WallLayout Class", () {
     test("Initialization", () {
-      expect(() => WallLayout(layersCount: 2,), throwsAssertionError, reason: "$WallLayout must throw error if stones list is missing");
       expect(() => WallLayout(stones: [], layersCount: 2,), throwsAssertionError, reason: "$WallLayout must throw error if stones list is empty");
-      expect(() => WallLayout(stones: [Stone(id: 1, child:Container(), width: 1, height: 1,)]), throwsAssertionError, reason: "$WallLayout must throw error if stones divisions is missing");
       expect(() => WallLayout(stones: stones, layersCount: 1,), throwsAssertionError, reason: "$WallLayout must throw error if stones divisions is lower than 2 (axis division equal to 1 is equivalent to a ListView, so no interest)");
       expect(() => WallLayout(stones: stones, layersCount: 2, scrollDirection: Axis.vertical,), throwsAssertionError, reason: "$WallLayout must throw error if at least one stone width is bigger than allowed divisions (in vertical Axis).");
       expect(() => WallLayout(stones: stones, layersCount: 2, scrollDirection: Axis.horizontal,), throwsAssertionError, reason: "$WallLayout must throw error if at least one stone height is bigger than allowed divisions (in horizontal Axis).");

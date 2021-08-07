@@ -1,12 +1,10 @@
 name: flutter_wall_layout
 description: A Layout widget displaying a set of bricks (widgets with different shapes) as a vertical or horizontal list, like a wall...
-version: 1.0.0
-author: David GONZALEZ (david.gonzalez.freelance@gmail.com)
-homepage: https://github.com/GONZALEZD/flutter_wall_layout
+version: 2.0.0
+repository: https://github.com/GONZALEZD/flutter_wall_layout
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
-  flutter: ">=1.17.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:

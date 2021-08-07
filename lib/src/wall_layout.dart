@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_wall_layout/layout/stone.dart';
-import 'package:flutter_wall_layout/layout/wall_build_handler.dart';
+import 'package:flutter_wall_layout/src/stone.dart';
+import 'package:flutter_wall_layout/src/wall_build_handler.dart';
 
 class WallLayout extends StatefulWidget {
   static const double DEFAULT_BRICK_PADDING = 16.0;
@@ -18,13 +18,13 @@ class WallLayout extends StatefulWidget {
   final double stonePadding;
 
   /// Same as [ListView].scrollController: "control the position to which this scroll view is scrolled".
-  final ScrollController scrollController;
+  final ScrollController? scrollController;
 
   /// Same as [ListView].physics: "How the scroll view should respond to user input".
-  final ScrollPhysics physics;
+  final ScrollPhysics? physics;
 
   /// Same as [ListView].restorationId: used "to save and restore the scroll offset of the scrollable".
-  final String restorationId;
+  final String? restorationId;
 
   /// Same as [ListView].dragStartBehavior: "Determines the way that drag start behavior is handled".
   final DragStartBehavior dragStartBehavior;
@@ -33,7 +33,7 @@ class WallLayout extends StatefulWidget {
   final Clip clipBehavior;
 
   /// Same as [ListView].primary: "Whether this is the primary scroll view associated with the parent [PrimaryScrollController]".
-  final bool primary;
+  final bool? primary;
 
   /// Same as [ListView].scrollDirection: "axis along which the scroll view scrolls".
   final Axis scrollDirection;
@@ -42,8 +42,8 @@ class WallLayout extends StatefulWidget {
   final bool reverse;
 
   WallLayout(
-      {this.layersCount,
-      this.stones,
+      {required this.layersCount,
+        required this.stones,
       this.stonePadding = DEFAULT_BRICK_PADDING,
       this.scrollController,
       this.primary,
@@ -53,10 +53,10 @@ class WallLayout extends StatefulWidget {
       this.dragStartBehavior = DragStartBehavior.start,
       this.scrollDirection = Axis.vertical,
       this.reverse = false})
-      : assert(stones != null && stones.isNotEmpty),
-        assert(layersCount != null && layersCount >= 2,
+      : assert(stones.isNotEmpty),
+        assert(layersCount >= 2,
             "You must define layers count from as an integer higher or equal to 2"),
-        assert(stonePadding != null && stonePadding >= 0.0),
+        assert(stonePadding >= 0.0),
         assert(!(scrollController != null && primary == true),
         'Primary ScrollViews obtain their ScrollController via inheritance from a PrimaryScrollController widget. '
             'You cannot both set primary to true and pass an explicit controller.'
@@ -75,7 +75,7 @@ class WallLayout extends StatefulWidget {
 }
 
 class _WallLayoutState extends State<WallLayout> {
-  WallBuildHandler _handler;
+  late WallBuildHandler _handler;
 
   @override
   void initState() {
@@ -90,7 +90,6 @@ class _WallLayoutState extends State<WallLayout> {
       direction: this.widget.scrollDirection,
       reverse: this.widget.reverse,
     );
-    _handler.setup();
   }
 
   @override
@@ -128,7 +127,7 @@ class _WallLayoutDelegate extends MultiChildLayoutDelegate {
   final WallBuildHandler handler;
   final double stonePadding;
 
-  _WallLayoutDelegate({this.stonePadding, this.handler, Listenable relayout})
+  _WallLayoutDelegate({required this.stonePadding, required this.handler, Listenable? relayout})
       : super(relayout: relayout);
 
   @override

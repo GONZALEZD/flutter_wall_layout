@@ -14,10 +14,8 @@ class Stone extends LayoutId {
   /// Stone height (relative to the number of wall layers count). Must be higher or equal to 1.
   final int height;
 
-  Stone({int id, Widget child, this.width, this.height})
-      : assert(width != null),
-        assert(width > 0),
-        assert(height != null),
+  Stone({required int id, required Widget child, required this.width, required this.height})
+      : assert(width > 0),
         assert(height > 0),
         super(child: child, id: id);
 

@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="574b991b-0841-4e11-a7b7-13611c36a8b5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/layout/stone.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/layout/stone.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/layout/wall_build_handler.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/layout/wall_build_handler.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/layout/wall_layout.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/layout/wall_layout.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/stone_position_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/stone_position_test.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/wall_build_handler_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/wall_build_handler_test.dart" afterDir="false" />
-    </list>
+    <list default="true" id="574b991b-0841-4e11-a7b7-13611c36a8b5" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/david/.android/avd/Phone_Pixel_5_API_29.avd]" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -24,13 +21,6 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="IgnoredFileRootStore">
-    <option name="generatedRoots">
-      <set>
-        <option value="$PROJECT_DIR$/.idea" />
-      </set>
-    </option>
-  </component>
   <component name="ProjectId" id="1mQw8X7ypqm71giV3vJ5oiBGQuG" />
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
@@ -38,6 +28,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="show.migrate.to.gradle.popup" value="false" />
@@ -47,7 +38,7 @@
       <recent name="$PROJECT_DIR$/lib/internal" />
     </key>
   </component>
-  <component name="RunManager" selected="Flutter Test.tests in test">
+  <component name="RunManager" selected="Flutter.main.dart">
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="filePath" value="$PROJECT_DIR$/example/lib/main.dart" />
       <method v="2" />
@@ -57,6 +48,7 @@
       <method v="2" />
     </configuration>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -69,39 +61,5 @@
       <updated>1609438963798</updated>
     </task>
     <servers />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="22" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1609683307804">
-      <screen x="0" y="25" width="1440" height="813" />
-    </state>
-    <state x="22" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1440.813@0.25.1440.813" timestamp="1609683307804" />
-    <state width="1073" height="254" key="GridCell.Tab.0.bottom" timestamp="1609690242500">
-      <screen x="0" y="25" width="1440" height="813" />
-    </state>
-    <state width="1073" height="254" key="GridCell.Tab.0.bottom/0.25.1440.813@0.25.1440.813" timestamp="1609690242500" />
-    <state width="1073" height="254" key="GridCell.Tab.0.center" timestamp="1609690242499">
-      <screen x="0" y="25" width="1440" height="813" />
-    </state>
-    <state width="1073" height="254" key="GridCell.Tab.0.center/0.25.1440.813@0.25.1440.813" timestamp="1609690242499" />
-    <state width="1073" height="254" key="GridCell.Tab.0.left" timestamp="1609690242499">
-      <screen x="0" y="25" width="1440" height="813" />
-    </state>
-    <state width="1073" height="254" key="GridCell.Tab.0.left/0.25.1440.813@0.25.1440.813" timestamp="1609690242499" />
-    <state width="1073" height="254" key="GridCell.Tab.0.right" timestamp="1609690242500">
-      <screen x="0" y="25" width="1440" height="813" />
-    </state>
-    <state width="1073" height="254" key="GridCell.Tab.0.right/0.25.1440.813@0.25.1440.813" timestamp="1609690242500" />
-    <state x="210" y="187" width="694" height="488" key="find.popup" timestamp="1609686071578">
-      <screen x="0" y="25" width="1440" height="813" />
-    </state>
-    <state x="210" y="187" width="694" height="488" key="find.popup/0.25.1440.813@0.25.1440.813" timestamp="1609686071578" />
-    <state width="460" height="114" key="javadoc.popup.new" timestamp="1609690133136">
-      <screen x="0" y="25" width="1440" height="813" />
-    </state>
-    <state width="460" height="114" key="javadoc.popup.new/0.25.1440.813@0.25.1440.813" timestamp="1609690133136" />
-    <state x="222" y="162" width="670" height="676" key="search.everywhere.popup" timestamp="1609511651861">
-      <screen x="0" y="25" width="1440" height="813" />
-    </state>
-    <state x="222" y="162" width="670" height="676" key="search.everywhere.popup/0.25.1440.813@0.25.1440.813" timestamp="1609511651861" />
   </component>
 </project>

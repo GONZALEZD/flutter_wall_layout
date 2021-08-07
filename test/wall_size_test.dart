@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_wall_layout/layout/wall_build_handler.dart';
+import 'package:flutter_wall_layout/src/wall_build_handler.dart';
 
 void main() {
   group("$WallSize Class", () {
     test("Initialization", () {
-      expect(() => WallSize(null, 2), throwsAssertionError, reason: "$WallSize must throw error is width is undefined.");
-      expect(() => WallSize(2, null), throwsAssertionError, reason: "$WallSize must throw error is height is undefined.");
       expect(() => WallSize(-2, 2), throwsAssertionError, reason: "$WallSize must throw error is width is lower than 1.");
       expect(() => WallSize(2, -4), throwsAssertionError, reason: "$WallSize must throw error is height is lower than 1.");
 

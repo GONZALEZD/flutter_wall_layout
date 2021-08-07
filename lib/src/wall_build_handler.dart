@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_wall_layout/layout/stone.dart';
+import 'package:flutter_wall_layout/src/stone.dart';
 
 /// Relative position of a stone in the Wall.
 class StonePosition {
@@ -9,9 +9,9 @@ class StonePosition {
   /// Wall row position.
   final int y;
 
-  StonePosition({this.x, this.y})
-      : assert(x != null && x >= 0),
-        assert(y != null && y >= 0);
+  StonePosition({required this.x, required this.y})
+      : assert(x >= 0),
+        assert(y >= 0);
 
   /// Computes the absolute brick position in a wall.
   /// [stoneSide] represents the smallest stone width/height.
@@ -30,8 +30,8 @@ class WallSize {
   final int height;
 
   WallSize(this.width, this.height)
-      : assert(width != null && width > 0),
-        assert(height != null && height > 0);
+      : assert(width > 0),
+        assert(height > 0);
 
   /// Flip width with Height, and returns a new instance
   get flipped => WallSize(this.height, this.width);
@@ -78,26 +78,24 @@ class WallBuildHandler {
 
   /// Internal attribute storing stones positions as a 2D Table.
   /// Only public for testing purpose; consequently this class must remain hidden from users.
-  List<int> grid;
+  late List<int?> grid;
 
   /// Internal attribute storing wall final size, once computed.
-  WallSize _wallSize;
+  late WallSize _wallSize;
 
   WallBuildHandler(
-      {this.axisSeparations, this.reverse = false, this.direction = Axis.vertical, this.stones})
-      : assert(axisSeparations != null && axisSeparations >= 2),
-        assert(direction != null),
-        assert(stones != null && stones.isNotEmpty) {
-    grid = [];
-    _wallSize = null;
+      {required this.axisSeparations, this.reverse = false, this.direction = Axis.vertical, required this.stones})
+      : assert(axisSeparations >= 2),
+        assert(stones.isNotEmpty) {
+    _setup();
   }
 
   /// Compute stones position and wall size.
   /// Must be executed before accessing to wall size property and getPosition method.
-  void setup() {
+  void _setup() {
     // instantiate grid
-    final surface = this.stones.fold(0, (sum, cell) => sum + cell.surface);
-    grid = List<int>.generate(surface * axisSeparations, (index) => null);
+    final surface = this.stones.fold<int>(0, (sum, cell) => sum + cell.surface);
+    grid = List<int?>.generate(surface * axisSeparations, (index) => null);
 
     // set stones positions in grid
     this.stones.forEach((stone) => computeStonePosition(stone));
@@ -140,7 +138,7 @@ class WallBuildHandler {
   void __placeOnGrid(Stone brick, int firstIndex) {
     for (var j = 0; j < brick.width; j++) {
       for (var k = 0; k < brick.height; k++) {
-        grid[firstIndex + __getGridPos(j, k)] = brick.id;
+        grid[firstIndex + __getGridPos(j, k)] = brick.id as int;
       }
     }
   }
@@ -151,14 +149,14 @@ class WallBuildHandler {
     // find first place in grid that accept brick's surface
     bool found = false;
     int startSearchPlace = 0;
-    int availablePlace;
+    int? availablePlace;
 
     while (!found) {
       availablePlace = grid.indexWhere((element) => element == null, startSearchPlace);
       found = __canFit(stone, availablePlace);
       startSearchPlace = availablePlace + 1;
     }
-    __placeOnGrid(stone, availablePlace);
+    __placeOnGrid(stone, availablePlace!);
   }
 
   /// Compute wall final size, (after having positioned all stones in the grid).
@@ -174,17 +172,12 @@ class WallBuildHandler {
   }
 
   /// Returns the final wall size.
-  /// Throw an error is [setup] method hasn't been called before.
-  WallSize get size {
-    assert(_wallSize != null, "Must call $WallBuildHandler::$setup method first");
-    return _wallSize;
-  }
+  WallSize get size => _wallSize;
 
   /// Returns the position of a specific stone.
   /// Throw an error is [setup] method hasn't been called before.
   StonePosition getPosition(Stone stone) {
-    assert(this.grid.contains(stone.id), "Must call $WallBuildHandler::$setup method first");
-    int start = this.grid.indexOf(stone.id);
+    int start = this.grid.indexOf(stone.id as int);
     int x, y;
     if (this.direction == Axis.vertical) {
       x = start % axisSeparations;
@@ -204,9 +197,9 @@ class WallBuildHandler {
         stringBuffer.writeln(grid.sublist(i, i + axisSeparations).join(" | "));
       }
     } else {
-      List<List<int>> rows = List<List<int>>.generate(axisSeparations, (index) => List<int>());
+      List<List<int>> rows = List<List<int>>.generate(axisSeparations, (index) => []);
       for (int i = 0; i < grid.length; i++) {
-        rows[i % axisSeparations].add(grid[i]);
+        rows[i % axisSeparations].add(grid[i]!);
       }
       rows.forEach((row) => stringBuffer.writeln(row.join(" | ")));
     }
