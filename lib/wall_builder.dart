@@ -84,7 +84,6 @@ class WallBlueprint {
 /// you will have to inherit from this abstract class,
 /// and implements the method [WallBuilder.computeStonePositions].
 abstract class WallBuilder {
-
   /// Default [WallBuilder] implementation
   factory WallBuilder.standard() => DefaultWallBuildHandler();
 
@@ -164,7 +163,8 @@ abstract class WallBuilder {
       bounds.forEach((key2, value2) {
         if (key != key2 && value.overlaps(value2)) {
           overlap = true;
-          print("Overlapping stones: $key (${stonesPositions[key]})\n $key2 (${stonesPositions[key2]})");
+          print(
+              "Overlapping stones: $key (${stonesPositions[key]})\n $key2 (${stonesPositions[key2]})");
         }
       });
     });
@@ -192,4 +192,3 @@ abstract class WallBuilder {
         "Stones must not draw outside the wall (see logs for more details)");
   }
 }
-

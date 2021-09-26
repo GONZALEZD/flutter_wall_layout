@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wall_layout/src/stone.dart';
 
 import '../wall_builder.dart';
+
 /// Class determining how the wall will be built.
 /// It main goals are to compute wall height and position every stones into the wall.
 class DefaultWallBuildHandler extends WallBuilder {
@@ -122,7 +123,7 @@ class DefaultWallBuildHandler extends WallBuilder {
       }
     } else {
       List<List<int>> rows =
-      List<List<int>>.generate(mainAxisSeparations, (index) => []);
+          List<List<int>>.generate(mainAxisSeparations, (index) => []);
       for (int i = 0; i < grid.length; i++) {
         rows[i % mainAxisSeparations].add(grid[i]!);
       }
