@@ -83,7 +83,6 @@ class WallLayout extends StatefulWidget {
 }
 
 class _WallLayoutState extends State<WallLayout> {
-
   late WallBlueprint _blueprint;
 
   @override
@@ -94,11 +93,11 @@ class _WallLayoutState extends State<WallLayout> {
 
   void _resetHandler() {
     _blueprint = widget._wallBuildHandler.build(
-          mainAxisSeparations: this.widget.layersCount,
-          stones: this.widget.stones,
-          direction: this.widget.scrollDirection,
-          reverse: this.widget.reverse,
-        );
+      mainAxisSeparations: this.widget.layersCount,
+      stones: this.widget.stones,
+      direction: this.widget.scrollDirection,
+      reverse: this.widget.reverse,
+    );
   }
 
   @override
@@ -144,11 +143,10 @@ class _WallLayoutDelegate extends MultiChildLayoutDelegate {
   final int mainAxisSeparations;
 
   _WallLayoutDelegate(
-      {
-      required this.stonePadding,
+      {required this.stonePadding,
       required this.blueprint,
-        required this.direction,
-        required this.mainAxisSeparations,
+      required this.direction,
+      required this.mainAxisSeparations,
       Listenable? relayout})
       : super(relayout: relayout);
 
@@ -164,10 +162,9 @@ class _WallLayoutDelegate extends MultiChildLayoutDelegate {
 
   @override
   void performLayout(Size size) {
-    double side =
-        ((direction == Axis.vertical ? size.width : size.height) -
-                this.stonePadding) /
-            mainAxisSeparations;
+    double side = ((direction == Axis.vertical ? size.width : size.height) -
+            this.stonePadding) /
+        mainAxisSeparations;
     final initialPadding = Offset(this.stonePadding, this.stonePadding);
     blueprint.stonesPosition.forEach((stone, stonePos) {
       Offset offset = stonePos * side;

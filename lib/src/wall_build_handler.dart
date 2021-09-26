@@ -97,10 +97,11 @@ abstract class WallBuildHandler {
   WallBuildHandler();
 
   /// Must be executed before accessing to wall size property and getPosition method.
-  WallBlueprint build({required int mainAxisSeparations,
-    required bool reverse,
-    required Axis direction,
-    required List<Stone> stones}) {
+  WallBlueprint build(
+      {required int mainAxisSeparations,
+      required bool reverse,
+      required Axis direction,
+      required List<Stone> stones}) {
     this._direction = direction;
     this._reverse = reverse;
     this._mainAxisSeparations = mainAxisSeparations;
@@ -117,12 +118,9 @@ abstract class WallBuildHandler {
   /// Compute the wall size from the stones positions.
   @visibleForTesting
   WallSize computeSize(Map<Stone, StoneStartPosition> stonesPositions) {
-    final posBottomRight = stonesPositions.map((key, value) =>
-        MapEntry(
-            key,
-            StoneStartPosition(x: value.x + key.width, y: value.y + key.height)));
-    int maxX = 0,
-        maxY = 0;
+    final posBottomRight = stonesPositions.map((key, value) => MapEntry(key,
+        StoneStartPosition(x: value.x + key.width, y: value.y + key.height)));
+    int maxX = 0, maxY = 0;
     posBottomRight.forEach((stone, pos) {
       maxX = max(maxX, pos.x);
       maxY = max(maxY, pos.y);
@@ -132,11 +130,10 @@ abstract class WallBuildHandler {
 
   @visibleForTesting
   void assertNoOverlap(Map<Stone, StoneStartPosition> stonesPositions) {
-    final bounds = stonesPositions.map((key, value) =>
-        MapEntry(
-            key,
-            Rect.fromLTWH(value.x.toDouble(), value.y.toDouble(),
-                key.width.toDouble(), key.height.toDouble())));
+    final bounds = stonesPositions.map((key, value) => MapEntry(
+        key,
+        Rect.fromLTWH(value.x.toDouble(), value.y.toDouble(),
+            key.width.toDouble(), key.height.toDouble())));
     bool overlap = false;
     bounds.forEach((key, value) {
       bounds.forEach((key2, value2) {
@@ -146,7 +143,8 @@ abstract class WallBuildHandler {
         }
       });
     });
-    assert(!overlap, "Two stones or more are overlapping (check console for more details)!");
+    assert(!overlap,
+        "Two stones or more are overlapping (check console for more details)!");
   }
 
   @visibleForTesting
@@ -155,8 +153,7 @@ abstract class WallBuildHandler {
       bool isOutside = false;
       if (this.direction == Axis.vertical) {
         isOutside = (value.x + key.width) > mainAxisSeparations;
-      }
-      else {
+      } else {
         isOutside = (value.y + key.height) > mainAxisSeparations;
       }
       return MapEntry(key, isOutside);
@@ -166,8 +163,8 @@ abstract class WallBuildHandler {
       print(
           "Error: stone $key will be drawn outside wall with position ${stonesPositions[key]}");
     });
-    assert(stonesOutside
-        .isEmpty, "Stones must not draw outside the wall (see logs for more details)");
+    assert(stonesOutside.isEmpty,
+        "Stones must not draw outside the wall (see logs for more details)");
   }
 }
 
@@ -288,7 +285,7 @@ class DefaultWallBuildHandler extends WallBuildHandler {
       }
     } else {
       List<List<int>> rows =
-      List<List<int>>.generate(mainAxisSeparations, (index) => []);
+          List<List<int>>.generate(mainAxisSeparations, (index) => []);
       for (int i = 0; i < grid.length; i++) {
         rows[i % mainAxisSeparations].add(grid[i]!);
       }

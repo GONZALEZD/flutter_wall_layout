@@ -7,14 +7,17 @@ import 'package:flutter/rendering.dart';
 /// If so, the [WallLayout] constructor throws an error.
 /// Added to that, [WallLayout] constructor check that every Stone identifier is unique.
 class Stone extends LayoutId {
-
   /// Stone width (relative to the number of wall layers count). Must be higher or equal to 1.
   final int width;
 
   /// Stone height (relative to the number of wall layers count). Must be higher or equal to 1.
   final int height;
 
-  Stone({required int id, required Widget child, required this.width, required this.height})
+  Stone(
+      {required int id,
+      required Widget child,
+      required this.width,
+      required this.height})
       : assert(width > 0),
         assert(height > 0),
         super(child: child, id: id);
