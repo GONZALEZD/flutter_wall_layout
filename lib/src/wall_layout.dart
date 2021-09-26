@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_wall_layout/src/stone.dart';
-import 'package:flutter_wall_layout/src/wall_build_handler.dart';
+import 'package:flutter_wall_layout/wall_builder.dart';
 
 class WallLayout extends StatefulWidget {
   static const double DEFAULT_BRICK_PADDING = 16.0;
@@ -13,6 +13,10 @@ class WallLayout extends StatefulWidget {
 
   /// List of Stone widgets, representing wall layout's children.
   final List<Stone> stones;
+
+  /// Define how the wall is built: where each stone is positioned within the wall.
+  /// If not provided, the [WallLayout] uses the [WallBuilder.standard].
+  final WallBuilder _wallBuildHandler;
 
   /// Padding between stones.
   final double stonePadding;
@@ -41,12 +45,10 @@ class WallLayout extends StatefulWidget {
   /// Same as [ListView].reverse: "whether the scroll view scrolls in the reading direction".
   final bool reverse;
 
-  final WallBuildHandler _wallBuildHandler;
-
   WallLayout(
       {required this.layersCount,
       required this.stones,
-      WallBuildHandler? wallBuildHandler,
+      WallBuilder? wallBuilder,
       this.stonePadding = DEFAULT_BRICK_PADDING,
       this.scrollController,
       this.primary,
@@ -56,7 +58,7 @@ class WallLayout extends StatefulWidget {
       this.dragStartBehavior = DragStartBehavior.start,
       this.scrollDirection = Axis.vertical,
       this.reverse = false})
-      : _wallBuildHandler = wallBuildHandler ?? DefaultWallBuildHandler(),
+      : _wallBuildHandler = wallBuilder ?? WallBuilder.standard(),
         assert(stones.isNotEmpty),
         assert(layersCount >= 2,
             "You must define layers count from as an integer higher or equal to 2"),
@@ -129,7 +131,7 @@ class _WallLayoutState extends State<WallLayout> {
           direction: this.widget.scrollDirection,
           mainAxisSeparations: this.widget.layersCount,
         ),
-        children: this.widget.stones,
+        children: _blueprint.stonesPosition.keys.toList(),
       ),
     );
   }
@@ -152,12 +154,13 @@ class _WallLayoutDelegate extends MultiChildLayoutDelegate {
 
   @override
   Size getSize(BoxConstraints constraints) {
-    final constrainedSide = direction == Axis.vertical
-        ? constraints.maxWidth
-        : constraints.maxHeight;
-
-    final side = (constrainedSide / mainAxisSeparations);
-    return blueprint.size * side;
+    if (direction == Axis.vertical) {
+      double side = constraints.maxWidth / mainAxisSeparations;
+      return Size(constraints.maxWidth, (blueprint.size * side).height);
+    } else {
+      double side = constraints.maxHeight / mainAxisSeparations;
+      return Size((blueprint.size * side).width, constraints.maxHeight);
+    }
   }
 
   @override

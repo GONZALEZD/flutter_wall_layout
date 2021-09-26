@@ -1,9 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_wall_layout/src/default_wall_builder.dart';
 import 'package:flutter_wall_layout/src/stone.dart';
-import 'package:flutter_wall_layout/src/wall_build_handler.dart';
+import 'package:flutter_wall_layout/wall_builder.dart';
 
-class WallBuildHandlerMock extends WallBuildHandler {
+class WallBuildHandlerMock extends WallBuilder {
   final Map<Stone, StoneStartPosition> data;
   final WallSize size;
 
@@ -143,20 +144,21 @@ void main() {
     test("Drawn outside stones check", () {
       final handler = WallBuildHandlerMock(data: {
         Stone(id: 1, child: Container(), width: 2, height: 2):
-        StoneStartPosition(x: 0, y: 0),
+            StoneStartPosition(x: 0, y: 0),
         Stone(id: 2, child: Container(), width: 1, height: 1):
-        StoneStartPosition(x: 2, y: 0),
+            StoneStartPosition(x: 2, y: 0),
         Stone(id: 3, child: Container(), width: 1, height: 1):
-        StoneStartPosition(x: 2, y: 1),
+            StoneStartPosition(x: 2, y: 1),
         Stone(id: 4, child: Container(), width: 2, height: 2):
-        StoneStartPosition(x: 2, y: 1),
+            StoneStartPosition(x: 2, y: 1),
       }, size: WallSize(1, 1));
       handler.build(
           mainAxisSeparations: 3,
           reverse: false,
           direction: Axis.vertical,
           stones: handler.data.keys.toList());
-      expect(() => handler.assertNoDrawOutside(handler.data), throwsAssertionError);
+      expect(() => handler.assertNoDrawOutside(handler.data),
+          throwsAssertionError);
     });
   });
 }

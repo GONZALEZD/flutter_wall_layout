@@ -1,9 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_wall_layout/src/default_wall_builder.dart';
 import 'package:flutter_wall_layout/src/stone.dart';
 
-/// Relative position of a stone in the Wall.
+/// Relative start position of a stone in the Wall.
 class StoneStartPosition {
   /// Wall column position.
   final int x;
@@ -68,6 +69,9 @@ class WallSize {
   }
 }
 
+/// Define the blueprint of the wall.
+/// It contains (relative) location of all stones,
+/// and the overall size of the wall.
 class WallBlueprint {
   final Map<Stone, StoneStartPosition> stonesPosition;
   final WallSize size;
@@ -75,7 +79,15 @@ class WallBlueprint {
   WallBlueprint({required this.stonesPosition, required this.size});
 }
 
-abstract class WallBuildHandler {
+/// Defines how the wall will be built
+/// If you want to define your own algorithm,
+/// you will have to inherit from this abstract class,
+/// and implements the method [WallBuilder.computeStonePositions].
+abstract class WallBuilder {
+
+  /// Default [WallBuilder] implementation
+  factory WallBuilder.standard() => DefaultWallBuildHandler();
+
   /// Define how many layers of the main axis the wall possess.
   late int _mainAxisSeparations;
 
@@ -94,9 +106,10 @@ abstract class WallBuildHandler {
   /// Define whether the wall must be displayed in reverse, like [ListView].reverse input parameter.
   bool get reverse => _reverse;
 
-  WallBuildHandler();
+  /// Default constructor.
+  WallBuilder();
 
-  /// Must be executed before accessing to wall size property and getPosition method.
+  /// Build the wall with scrollview parameters
   WallBlueprint build(
       {required int mainAxisSeparations,
       required bool reverse,
@@ -112,7 +125,19 @@ abstract class WallBuildHandler {
     return WallBlueprint(stonesPosition: positions, size: wallSize);
   }
 
-  /// Let you compute stone position for each stones.
+  /// Let you compute stone position for each stone.
+  /// StonePositions must not overlap (stack not allowed),
+  /// and not been drawn outside the wall
+  /// (depending on [WallBuilder.mainAxisSeparations]).
+  ///
+  /// To help you, the [WallBuilder] will check these two requisites.
+  /// Added to that, you have access to layout main data:
+  /// - [WallBuilder.direction] : Direction of the wall to draw
+  /// - [WallBuilder.mainAxisSeparations] : number of elements of the main direction.
+  /// - [WallBuilder.reverse] : define whether to display the stones in reverse mode (check [ScrollView.reverse])
+  /// The returned data will be used to draw stones.
+  /// If a stone is not in this map, it won't be drawn.
+  /// All new created Stone inserted in the Map will be taken into account.
   Map<Stone, StoneStartPosition> computeStonePositions(List<Stone> stones);
 
   /// Compute the wall size from the stones positions.
@@ -139,7 +164,7 @@ abstract class WallBuildHandler {
       bounds.forEach((key2, value2) {
         if (key != key2 && value.overlaps(value2)) {
           overlap = true;
-          print("Overlapping stones: $key $key2");
+          print("Overlapping stones: $key (${stonesPositions[key]})\n $key2 (${stonesPositions[key2]})");
         }
       });
     });
@@ -168,129 +193,3 @@ abstract class WallBuildHandler {
   }
 }
 
-/// Class determining how the wall will be built.
-/// It main goals are to compute wall height and position every stones into the wall.
-class DefaultWallBuildHandler extends WallBuildHandler {
-  /// Internal attribute storing stones positions as a 2D Table.
-  @visibleForTesting
-  late List<int?> grid;
-  int _gridLastIndex = 0;
-
-  DefaultWallBuildHandler() : super();
-
-  /// Compute stones position and wall size.
-  /// Must be executed before accessing to wall size property and getPosition method.
-  @override
-  Map<Stone, StoneStartPosition> computeStonePositions(List<Stone> stones) {
-    // instantiate grid
-    final surface = stones.fold<int>(0, (sum, cell) => sum + cell.surface);
-    grid = List<int?>.generate(surface * mainAxisSeparations, (index) => null);
-
-    // set stones positions in grid
-    stones.forEach((stone) => computeStonePosition(stone));
-
-    //remove unwanted grid data
-    int startRemove = _gridLastIndex + 1;
-    int diff = startRemove % mainAxisSeparations;
-    if (diff > 0) {
-      startRemove += mainAxisSeparations - diff;
-    }
-    grid.removeRange(startRemove, grid.length);
-
-    //reverse grid if we are in reverse display mode
-    if (reverse) {
-      grid = grid.reversed.toList();
-    }
-
-    return stones
-        .asMap()
-        .map((key, value) => MapEntry(value, _getPosition(value)));
-  }
-
-  bool __canFit(Stone stone, int firstIndex) {
-    final placeLeft =
-        this.mainAxisSeparations - (firstIndex % this.mainAxisSeparations);
-    if ((this.direction == Axis.vertical ? stone.width : stone.height) >
-        placeLeft) {
-      return false;
-    }
-
-    bool found = true;
-    for (var j = 0; j < stone.width; j++) {
-      for (var k = 0; k < stone.height; k++) {
-        found &= grid[firstIndex + __getGridPos(j, k)] == null;
-      }
-    }
-    return found;
-  }
-
-  int __getGridPos(int column, int row) {
-    if (this.direction == Axis.vertical) {
-      return column + mainAxisSeparations * row;
-    } else {
-      return row + mainAxisSeparations * column;
-    }
-  }
-
-  void __placeOnGrid(Stone brick, int firstIndex) {
-    int pos = 0;
-    for (var j = 0; j < brick.width; j++) {
-      for (var k = 0; k < brick.height; k++) {
-        pos = firstIndex + __getGridPos(j, k);
-        grid[pos] = brick.id as int;
-        _gridLastIndex = max(_gridLastIndex, pos);
-      }
-    }
-  }
-
-  /// Compute the position of the stone, and set it on the grid.
-  @visibleForTesting
-  void computeStonePosition(Stone stone) {
-    // find first place in grid that accept brick's surface
-    bool found = false;
-    int startSearchPlace = 0;
-    int? availablePlace;
-
-    while (!found) {
-      availablePlace =
-          grid.indexWhere((element) => element == null, startSearchPlace);
-      found = __canFit(stone, availablePlace);
-      startSearchPlace = availablePlace + 1;
-    }
-    __placeOnGrid(stone, availablePlace!);
-  }
-
-  /// Returns the position of a specific stone.
-  /// Throw an error if [compute] method hasn't been called before.
-  StoneStartPosition _getPosition(Stone stone) {
-    int start = this.grid.indexOf(stone.id as int);
-    int x, y;
-    if (this.direction == Axis.vertical) {
-      x = start % mainAxisSeparations;
-      y = start ~/ mainAxisSeparations;
-    } else {
-      x = start ~/ mainAxisSeparations;
-      y = start % mainAxisSeparations;
-    }
-    return StoneStartPosition(x: x, y: y);
-  }
-
-  @override
-  String toString() {
-    final stringBuffer = StringBuffer("$DefaultWallBuildHandler\n");
-    if (this.direction == Axis.vertical) {
-      for (int i = 0; i < grid.length; i += mainAxisSeparations) {
-        stringBuffer
-            .writeln(grid.sublist(i, i + mainAxisSeparations).join(" | "));
-      }
-    } else {
-      List<List<int>> rows =
-          List<List<int>>.generate(mainAxisSeparations, (index) => []);
-      for (int i = 0; i < grid.length; i++) {
-        rows[i % mainAxisSeparations].add(grid[i]!);
-      }
-      rows.forEach((row) => stringBuffer.writeln(row.join(" | ")));
-    }
-    return stringBuffer.toString();
-  }
-}

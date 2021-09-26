@@ -1,3 +1,6 @@
+## [2.1.0] - 26/09/2021 Externalize positionning algorithm
+* Adding WallBuildHandler parameter, allowing you to define your own algorithm involved in positioning stones
+
 ## [2.0.0] - Migrate to Null Safety.
 * Migration to dart null safety.
 
