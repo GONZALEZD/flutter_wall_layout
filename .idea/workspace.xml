@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="574b991b-0841-4e11-a7b7-13611c36a8b5" name="Default Changelist" comment="" />
+    <list default="true" id="574b991b-0841-4e11-a7b7-13611c36a8b5" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/wall_build_handler.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/wall_build_handler.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/wall_layout.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/wall_layout.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/stone_position_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/stone_position_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/wall_build_handler_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/wall_build_handler_test.dart" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -43,10 +51,44 @@
       <option name="filePath" value="$PROJECT_DIR$/example/lib/main.dart" />
       <method v="2" />
     </configuration>
+    <configuration name="Drawn outside stones check" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testName" value="Drawn outside stones check" />
+      <option name="testFile" value="$PROJECT_DIR$/test/wall_build_handler_test.dart" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Overlapping Stones check" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testName" value="Overlapping Stones check" />
+      <option name="testFile" value="$PROJECT_DIR$/test/wall_build_handler_test.dart" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Reverse vertical list" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testName" value="Reverse vertical list" />
+      <option name="testFile" value="$PROJECT_DIR$/test/wall_build_handler_test.dart" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Vertical list 2" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testName" value="Vertical list 2" />
+      <option name="testFile" value="$PROJECT_DIR$/test/wall_build_handler_test.dart" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Vertical list" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testName" value="Vertical list" />
+      <option name="testFile" value="$PROJECT_DIR$/test/wall_build_handler_test.dart" />
+      <method v="2" />
+    </configuration>
     <configuration name="tests in test" type="FlutterTestConfigType" factoryName="Flutter Test" nameIsGenerated="true">
       <option name="testDir" value="$PROJECT_DIR$/test" />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Flutter Test.Drawn outside stones check" />
+        <item itemvalue="Flutter Test.Overlapping Stones check" />
+        <item itemvalue="Flutter Test.Vertical list" />
+        <item itemvalue="Flutter Test.Reverse vertical list" />
+        <item itemvalue="Flutter Test.Vertical list 2" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">

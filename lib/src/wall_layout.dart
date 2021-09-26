@@ -41,9 +41,12 @@ class WallLayout extends StatefulWidget {
   /// Same as [ListView].reverse: "whether the scroll view scrolls in the reading direction".
   final bool reverse;
 
+  final WallBuildHandler _wallBuildHandler;
+
   WallLayout(
       {required this.layersCount,
-        required this.stones,
+      required this.stones,
+      WallBuildHandler? wallBuildHandler,
       this.stonePadding = DEFAULT_BRICK_PADDING,
       this.scrollController,
       this.primary,
@@ -53,18 +56,23 @@ class WallLayout extends StatefulWidget {
       this.dragStartBehavior = DragStartBehavior.start,
       this.scrollDirection = Axis.vertical,
       this.reverse = false})
-      : assert(stones.isNotEmpty),
+      : _wallBuildHandler = wallBuildHandler ?? DefaultWallBuildHandler(),
+        assert(stones.isNotEmpty),
         assert(layersCount >= 2,
             "You must define layers count from as an integer higher or equal to 2"),
         assert(stonePadding >= 0.0),
-        assert(!(scrollController != null && primary == true),
-        'Primary ScrollViews obtain their ScrollController via inheritance from a PrimaryScrollController widget. '
-            'You cannot both set primary to true and pass an explicit controller.'
-        ),
+        assert(
+            !(scrollController != null && primary == true),
+            'Primary ScrollViews obtain their ScrollController via inheritance from a PrimaryScrollController widget. '
+            'You cannot both set primary to true and pass an explicit controller.'),
         super() {
-    assert(this.stones.map((stone) => stone.id).toSet().length == this.stones.length, "Stones identifier must be unique.");
+    assert(
+        this.stones.map((stone) => stone.id).toSet().length ==
+            this.stones.length,
+        "Stones identifier must be unique.");
     this.stones.forEach((stone) {
-      final constrainedSide = this.scrollDirection == Axis.vertical ? stone.width : stone.height;
+      final constrainedSide =
+          this.scrollDirection == Axis.vertical ? stone.width : stone.height;
       assert(constrainedSide <= this.layersCount,
           "Stone $stone is too big to fit in wall : constrained side ($constrainedSide) is higher than axisDivision ($layersCount)");
     });
@@ -75,7 +83,8 @@ class WallLayout extends StatefulWidget {
 }
 
 class _WallLayoutState extends State<WallLayout> {
-  late WallBuildHandler _handler;
+
+  late WallBlueprint _blueprint;
 
   @override
   void initState() {
@@ -84,20 +93,20 @@ class _WallLayoutState extends State<WallLayout> {
   }
 
   void _resetHandler() {
-    _handler = WallBuildHandler(
-      axisSeparations: this.widget.layersCount,
-      stones: this.widget.stones,
-      direction: this.widget.scrollDirection,
-      reverse: this.widget.reverse,
-    );
+    _blueprint = widget._wallBuildHandler.build(
+          mainAxisSeparations: this.widget.layersCount,
+          stones: this.widget.stones,
+          direction: this.widget.scrollDirection,
+          reverse: this.widget.reverse,
+        );
   }
 
   @override
   void didUpdateWidget(covariant WallLayout oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (this.widget.layersCount != _handler.axisSeparations ||
-        this.widget.scrollDirection != _handler.direction ||
-        this.widget.reverse != _handler.reverse ||
+    if (this.widget.layersCount != oldWidget.layersCount ||
+        this.widget.scrollDirection != oldWidget.scrollDirection ||
+        this.widget.reverse != oldWidget.reverse ||
         oldWidget.stones != this.widget.stones) {
       _resetHandler();
     }
@@ -115,7 +124,12 @@ class _WallLayoutState extends State<WallLayout> {
       primary: this.widget.primary,
       clipBehavior: this.widget.clipBehavior,
       child: CustomMultiChildLayout(
-        delegate: _WallLayoutDelegate(handler: _handler, stonePadding: this.widget.stonePadding),
+        delegate: _WallLayoutDelegate(
+          blueprint: _blueprint,
+          stonePadding: this.widget.stonePadding,
+          direction: this.widget.scrollDirection,
+          mainAxisSeparations: this.widget.layersCount,
+        ),
         children: this.widget.stones,
       ),
     );
@@ -124,28 +138,39 @@ class _WallLayoutState extends State<WallLayout> {
 
 /// Delegates for CustomMultiChildLayout that position and size Stones.
 class _WallLayoutDelegate extends MultiChildLayoutDelegate {
-  final WallBuildHandler handler;
+  final WallBlueprint blueprint;
   final double stonePadding;
+  final Axis direction;
+  final int mainAxisSeparations;
 
-  _WallLayoutDelegate({required this.stonePadding, required this.handler, Listenable? relayout})
+  _WallLayoutDelegate(
+      {
+      required this.stonePadding,
+      required this.blueprint,
+        required this.direction,
+        required this.mainAxisSeparations,
+      Listenable? relayout})
       : super(relayout: relayout);
 
   @override
   Size getSize(BoxConstraints constraints) {
-    final constrainedSide =
-        this.handler.direction == Axis.vertical ? constraints.maxWidth : constraints.maxHeight;
+    final constrainedSide = direction == Axis.vertical
+        ? constraints.maxWidth
+        : constraints.maxHeight;
 
-    final side = (constrainedSide / this.handler.axisSeparations);
-    return this.handler.size * side;
+    final side = (constrainedSide / mainAxisSeparations);
+    return blueprint.size * side;
   }
 
   @override
   void performLayout(Size size) {
-    double side = ((this.handler.direction == Axis.vertical ? size.width : size.height) - this.stonePadding) /
-        this.handler.axisSeparations;
+    double side =
+        ((direction == Axis.vertical ? size.width : size.height) -
+                this.stonePadding) /
+            mainAxisSeparations;
     final initialPadding = Offset(this.stonePadding, this.stonePadding);
-    this.handler.stones.forEach((stone) {
-      Offset offset = this.handler.getPosition(stone) * side;
+    blueprint.stonesPosition.forEach((stone, stonePos) {
+      Offset offset = stonePos * side;
       Size size = Size(
         stone.width * side - this.stonePadding,
         stone.height * side - this.stonePadding,
