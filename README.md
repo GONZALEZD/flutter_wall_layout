@@ -27,7 +27,7 @@ WallLayout(
 | ------------------ | ------------------------------------------------- | -------------- |
 | stones             | List of Stone widgets, representing wall layout's children. | -                       |
 | layersCount        | Define the number of layers the wall have. Must be higher or equal to 2. When direction is Axis.vertical, it defines the number of columns the wall has. When direction is Axis.horizontal, it defines the number of rows. | -                       |
-| wallBuilder        | Define how the wall is built: where each stone is positioned within the wall.The wall builder is allowed to use less stones than provided, and can create new stones (see ./example for more details). | WallHandler.standard()  |
+| wallBuilder        | Define how the wall is built: where each stone is positioned within the wall.The wall builder is allowed to use less stones than provided, and can create new stones (see ./example for more details). | WallBuilder.standard()  |
 | stonePadding       | Padding between stones. | 16.0                    |
 | scrollController   | Same as [ListView.scrollController]: "control the position to which this scroll view is scrolled". | -                       |
 | physics            | Same as [ListView.physics]: "How the scroll view should respond to user input". | -                       |
