@@ -96,7 +96,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       duration: Duration(milliseconds: 200),
       reverseDuration: Duration(milliseconds: 200),
       alignment: Alignment.bottomRight,
-      vsync: this,
       child: Container(
         margin: EdgeInsets.only(left: 32),
         decoration: BoxDecoration(
