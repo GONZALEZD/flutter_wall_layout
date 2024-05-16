@@ -10,6 +10,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,6 +36,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   late final AnimationController _controller;
+  late bool _fixedPrimaryAxisStoneSize;
   late bool _reversed;
   late Axis _direction;
   late int _nbLayers;
@@ -47,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     super.initState();
     _controller =
         AnimationController(duration: Duration(milliseconds: 500), vsync: this);
+    _fixedPrimaryAxisStoneSize = false;
     _reversed = false;
     _direction = Axis.vertical;
     _nbLayers = 3;
@@ -117,6 +120,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     __buildDivisionsOption(),
                     __buildDirectionOption(),
                     __buildReverseOption(),
+                    __buildFixedPrimaryAxisStoneSizeOption(),
                   ],
                 ),
               ),
@@ -144,6 +148,20 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           if (_random) {
             _stones = _buildRandomStonesList(_nbLayers);
           }
+        }),
+      ),
+    );
+  }
+
+  Widget __buildFixedPrimaryAxisStoneSizeOption() {
+    return _buildOption(
+      "Fixed Primary Axis Size",
+      CupertinoSegmentedControl<bool>(
+        groupValue: _fixedPrimaryAxisStoneSize,
+        children: {false: Text("no"), true: Text("yes (300px)")},
+        onValueChanged: (value) => setState(() {
+          _controller.forward(from: 0.0);
+          _fixedPrimaryAxisStoneSize = value;
         }),
       ),
     );
@@ -216,6 +234,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       stones: _stones,
       reverse: _reversed,
       layersCount: _nbLayers,
+      primaryAxisStoneSize: _fixedPrimaryAxisStoneSize ? 300 : null,
     );
   }
 

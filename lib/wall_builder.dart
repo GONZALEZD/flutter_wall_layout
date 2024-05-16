@@ -18,8 +18,8 @@ class StoneStartPosition {
 
   /// Computes the absolute brick position in a wall.
   /// [stoneSide] represents the smallest stone width/height.
-  Offset operator *(double stoneSide) =>
-      Offset(this.x * stoneSide, this.y * stoneSide);
+  Offset operator *(Size stoneSide) =>
+      Offset(this.x * stoneSide.width, this.y * stoneSide.height);
 
   @override
   String toString() {

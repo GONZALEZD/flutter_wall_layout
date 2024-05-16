@@ -21,6 +21,10 @@ class WallLayout extends StatefulWidget {
   /// Padding between stones.
   final double stonePadding;
 
+  /// Optional. If specified, indicates the exact size of each stone in the direction
+  /// of the primary scroll axis. If not specified, each stone will be exactly square.
+  final double? primaryAxisStoneSize;
+
   /// Same as [ListView].scrollController: "control the position to which this scroll view is scrolled".
   final ScrollController? scrollController;
 
@@ -50,6 +54,7 @@ class WallLayout extends StatefulWidget {
       required this.stones,
       WallBuilder? wallBuilder,
       this.stonePadding = DEFAULT_BRICK_PADDING,
+      this.primaryAxisStoneSize,
       this.scrollController,
       this.primary,
       this.physics,
@@ -63,6 +68,7 @@ class WallLayout extends StatefulWidget {
         assert(layersCount >= 2,
             "You must define layers count from as an integer higher or equal to 2"),
         assert(stonePadding >= 0.0),
+        assert(primaryAxisStoneSize == null || primaryAxisStoneSize >= 0.0),
         assert(
             !(scrollController != null && primary == true),
             'Primary ScrollViews obtain their ScrollController via inheritance from a PrimaryScrollController widget. '
@@ -128,6 +134,7 @@ class _WallLayoutState extends State<WallLayout> {
         delegate: _WallLayoutDelegate(
           blueprint: _blueprint,
           stonePadding: this.widget.stonePadding,
+          primaryAxisStoneSize: this.widget.primaryAxisStoneSize,
           direction: this.widget.scrollDirection,
           mainAxisSeparations: this.widget.layersCount,
         ),
@@ -141,11 +148,13 @@ class _WallLayoutState extends State<WallLayout> {
 class _WallLayoutDelegate extends MultiChildLayoutDelegate {
   final WallBlueprint blueprint;
   final double stonePadding;
+  final double? primaryAxisStoneSize;
   final Axis direction;
   final int mainAxisSeparations;
 
   _WallLayoutDelegate(
       {required this.stonePadding,
+      required this.primaryAxisStoneSize,
       required this.blueprint,
       required this.direction,
       required this.mainAxisSeparations,
@@ -155,10 +164,12 @@ class _WallLayoutDelegate extends MultiChildLayoutDelegate {
   @override
   Size getSize(BoxConstraints constraints) {
     if (direction == Axis.vertical) {
-      double side = constraints.maxWidth / mainAxisSeparations;
+      double side =
+          primaryAxisStoneSize ?? (constraints.maxWidth / mainAxisSeparations);
       return Size(constraints.maxWidth, (blueprint.size * side).height);
     } else {
-      double side = constraints.maxHeight / mainAxisSeparations;
+      double side =
+          primaryAxisStoneSize ?? (constraints.maxHeight / mainAxisSeparations);
       return Size((blueprint.size * side).width, constraints.maxHeight);
     }
   }
@@ -168,12 +179,17 @@ class _WallLayoutDelegate extends MultiChildLayoutDelegate {
     double side = ((direction == Axis.vertical ? size.width : size.height) -
             this.stonePadding) /
         mainAxisSeparations;
+    double primaryAxisSide = primaryAxisStoneSize ?? side;
+    final singleStoneSize = Size(
+      direction == Axis.vertical ? side : primaryAxisSide,
+      direction == Axis.vertical ? primaryAxisSide : side,
+    );
     final initialPadding = Offset(this.stonePadding, this.stonePadding);
     blueprint.stonesPosition.forEach((stone, stonePos) {
-      Offset offset = stonePos * side;
+      Offset offset = stonePos * singleStoneSize;
       Size size = Size(
-        stone.width * side - this.stonePadding,
-        stone.height * side - this.stonePadding,
+        stone.width * singleStoneSize.width - this.stonePadding,
+        stone.height * singleStoneSize.height - this.stonePadding,
       );
 
       positionChild(stone.id, initialPadding + offset);
