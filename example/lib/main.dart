@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        backgroundColor: Color(0xFFF5F5F5),
+        colorScheme: ColorScheme.light(background: Color(0xFFF5F5F5)),
       ),
       home: MyHomePage(title: 'Wall Layout Demo'),
     );
@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = Theme.of(context).backgroundColor;
+    final backgroundColor = Theme.of(context).colorScheme.background;
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
@@ -99,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       child: Container(
         margin: EdgeInsets.only(left: 32),
         decoration: BoxDecoration(
-          color: Theme.of(context).backgroundColor,
+          color: Theme.of(context).colorScheme.background,
           boxShadow: [
             BoxShadow(color: Colors.black26, blurRadius: 6.0),
           ],
