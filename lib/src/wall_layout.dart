@@ -68,7 +68,7 @@ class WallLayout extends StatefulWidget {
         assert(layersCount >= 2,
             "You must define layers count from as an integer higher or equal to 2"),
         assert(stonePadding >= 0.0),
-        assert(primaryAxisStoneSize == null || primaryAxisStoneSize >= 0.0),
+        assert(primaryAxisStoneSize == null || primaryAxisStoneSize > 0.0),
         assert(
             !(scrollController != null && primary == true),
             'Primary ScrollViews obtain their ScrollController via inheritance from a PrimaryScrollController widget. '
