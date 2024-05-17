@@ -53,7 +53,7 @@ class WallSize {
       Size(width.toDouble() * stoneSide, height.toDouble() * stoneSide);
 
   @override
-  int get hashCode => hashList([width, height]);
+  int get hashCode => Object.hashAll([width, height]);
 
   @override
   bool operator ==(Object other) {
