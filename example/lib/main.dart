@@ -10,6 +10,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        backgroundColor: Color(0xFFF5F5F5),
+        colorScheme: ColorScheme.light(background: Color(0xFFF5F5F5)),
       ),
       home: MyHomePage(title: 'Wall Layout Demo'),
     );
@@ -35,6 +36,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   late final AnimationController _controller;
+  late bool _fixedPrimaryAxisStoneSize;
   late bool _reversed;
   late Axis _direction;
   late int _nbLayers;
@@ -47,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     super.initState();
     _controller =
         AnimationController(duration: Duration(milliseconds: 500), vsync: this);
+    _fixedPrimaryAxisStoneSize = false;
     _reversed = false;
     _direction = Axis.vertical;
     _nbLayers = 3;
@@ -57,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = Theme.of(context).backgroundColor;
+    final backgroundColor = Theme.of(context).colorScheme.background;
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
@@ -93,11 +96,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       duration: Duration(milliseconds: 200),
       reverseDuration: Duration(milliseconds: 200),
       alignment: Alignment.bottomRight,
-      vsync: this,
       child: Container(
         margin: EdgeInsets.only(left: 32),
         decoration: BoxDecoration(
-          color: Theme.of(context).backgroundColor,
+          color: Theme.of(context).colorScheme.background,
           boxShadow: [
             BoxShadow(color: Colors.black26, blurRadius: 6.0),
           ],
@@ -117,6 +119,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     __buildDivisionsOption(),
                     __buildDirectionOption(),
                     __buildReverseOption(),
+                    __buildFixedPrimaryAxisStoneSizeOption(),
                   ],
                 ),
               ),
@@ -144,6 +147,20 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           if (_random) {
             _stones = _buildRandomStonesList(_nbLayers);
           }
+        }),
+      ),
+    );
+  }
+
+  Widget __buildFixedPrimaryAxisStoneSizeOption() {
+    return _buildOption(
+      "Fixed Primary Axis Size",
+      CupertinoSegmentedControl<bool>(
+        groupValue: _fixedPrimaryAxisStoneSize,
+        children: {false: Text("no"), true: Text("yes (300px)")},
+        onValueChanged: (value) => setState(() {
+          _controller.forward(from: 0.0);
+          _fixedPrimaryAxisStoneSize = value;
         }),
       ),
     );
@@ -216,6 +233,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       stones: _stones,
       reverse: _reversed,
       layersCount: _nbLayers,
+      primaryAxisStoneSize: _fixedPrimaryAxisStoneSize ? 300 : null,
     );
   }
 

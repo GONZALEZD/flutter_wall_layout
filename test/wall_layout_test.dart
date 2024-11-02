@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_wall_layout/flutter_wall_layout.dart';
 
-import 'package:flutter_wall_layout/src/wall_layout.dart';
-
 void main() {
   late List<Stone> stones;
   setUp(() {

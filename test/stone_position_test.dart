@@ -13,9 +13,9 @@ void main() {
     });
 
     test("* operator", () {
-      expect(StoneStartPosition(x: 2, y: 10) * 12.0, Offset(24.0, 120.0),
+      expect(StoneStartPosition(x: 2, y: 10) * Size(12.0, 12.0), Offset(24.0, 120.0),
           reason: "Incorrect multiplication.");
-      expect(StoneStartPosition(x: 3, y: 1) * -6.0, Offset(-18.0, -6.0),
+      expect(StoneStartPosition(x: 3, y: 1) * Size(-6.0, -6.0), Offset(-18.0, -6.0),
           reason: "Incorrect multiplication.");
     });
   });

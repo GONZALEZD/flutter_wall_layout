@@ -29,6 +29,7 @@ WallLayout(
 | layersCount        | Define the number of layers the wall have. Must be higher or equal to 2. When direction is Axis.vertical, it defines the number of columns the wall has. When direction is Axis.horizontal, it defines the number of rows. | -                       |
 | wallBuilder        | Define how the wall is built: where each stone is positioned within the wall.The wall builder is allowed to use less stones than provided, and can create new stones (see ./example for more details). | WallBuilder.standard()  |
 | stonePadding       | Padding between stones. | 16.0                    |
+| primaryAxisStoneSize | Optional. If specified, indicates the exact size of each stone in the direction of the primary scroll axis. If not specified, each stone will be exactly square. | -                    |
 | scrollController   | Same as [ListView.scrollController]: "control the position to which this scroll view is scrolled". | -                       |
 | physics            | Same as [ListView.physics]: "How the scroll view should respond to user input". | -                       |
 | restorationId      | Same as [ListView.restorationId]: used "to save and restore the scroll offset of the scrollable". | -                       |
