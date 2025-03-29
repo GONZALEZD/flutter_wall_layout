@@ -1,3 +1,6 @@
+## [2.1.2] - 29/03/2025 
+* Upgrade versions
+* Add primaryAxisStoneSize feature
 ## [2.1.1] - 26/09/2021 Fix documentation
 * Fix documentation
 
